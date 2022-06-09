@@ -1,0 +1,11 @@
+package Interface;
+
+import java.util.HashMap;
+
+import Usuarios.Usuario;
+
+public interface UserValidationsRegistro {
+	boolean validaEmail(HashMap<String,Usuario>map,String email);
+	boolean validaDNI(HashMap<String,Usuario>map, String dni);
+	boolean validaPassword(String password,String password2);
+}
