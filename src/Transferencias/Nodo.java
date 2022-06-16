@@ -1,29 +1,41 @@
-package Transferencias;
+package Transfers;
 
+import Coins.UtnCoin;
+import Usuarios.Usuario;
+
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Nodo {
-    private UUID codeUserSend;
-    private UUID codeUserReceptor;
-    private double utnCoins;
+public class Nodo implements Serializable{
+    private String codeUserSend;
+    private String codeUserReceptor;
+    //private Object coin;  Implementar multiples coins
+    private UtnCoin coin;
+    private int status;
 
-
-    public Nodo(UUID codeUserSend, UUID codeUserReceptor, double utnCoins) {
+    public Nodo(String codeUserSend, String codeUserReceptor, UtnCoin coin) {
         this.codeUserSend = codeUserSend;
         this.codeUserReceptor = codeUserReceptor;
-        this.utnCoins = utnCoins;
+        this.coin = coin;
+        this.status=1;
     }
 
-    public UUID getCodeUserSend() {return codeUserSend;}
+    public int getStatus() {return status;}
 
-    public void setCodeUserSend(UUID codeUserSend) {this.codeUserSend = codeUserSend;}
+    public void setStatus(int status) {this.status = status;}
 
-    public UUID getCodeUserReceptor() {return codeUserReceptor;}
+    public String getCodeUserSend() {return codeUserSend.toString();}
 
-    public void setCodeUserReceptor(UUID codeUserReceptor) {this.codeUserReceptor = codeUserReceptor;}
+    public String getCodeUserReceptor() {return codeUserReceptor.toString();}
 
-    public double getUtnCoins() {return utnCoins;}
+    public UtnCoin getCoin() {return coin;}
 
-    public void setUtnCoins(double utnCoins) {this.utnCoins = utnCoins;}
+    public void setCoin(UtnCoin coin) {this.coin = coin;}
 
+    public boolean validaSaldo(Usuario user){
+        if(user.getUtnCoins()>=coin.getAmountCoin()){
+            return true;
+        }else
+            return false;
+    }
 }
