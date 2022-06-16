@@ -20,6 +20,7 @@ public class ErrorWalletUI extends JDialog {
 	private JLabel labelTransfOK = new JLabel("Transferencia realizada correctamente");
 	private JLabel labelCambiosGuardadosOK = new JLabel("Se han guardado los cambios exitosamente.");
 	private JLabel labelValidacionOK = new JLabel("Se ha validado correctamente la transferencia");
+	private JLabel labelErrorSinSeleccionTransf = new JLabel("Error: No selecciono ninguna transferencia para validar");
 	
 	public ErrorWalletUI(int i) {
 		setTitle("ERROR");
@@ -32,7 +33,7 @@ public class ErrorWalletUI extends JDialog {
 		labelError.setBounds(21, 10, 360, 32);
 		contentPanel.add(labelError);
 
-		labelWalletIngresadaNoExiste.setBounds(21, 67, 329, 13);
+		labelWalletIngresadaNoExiste.setBounds(21, 44, 329, 13);
 		contentPanel.add(labelWalletIngresadaNoExiste);
 	
 		labelErrorSiMismo.setBounds(21, 67, 329, 13);
@@ -54,6 +55,7 @@ public class ErrorWalletUI extends JDialog {
 			labelTransfOK.setVisible(false);
 			labelValidacionOK.setVisible(false);
 			labelCambiosGuardadosOK.setVisible(false);
+			labelErrorSinSeleccionTransf.setVisible(false);
 		}
 		else
 			if (i==1) {
@@ -63,6 +65,7 @@ public class ErrorWalletUI extends JDialog {
 				labelValidacionOK.setVisible(false);
 				labelWalletIngresadaNoExiste.setVisible(true);
 				labelError.setVisible(true);
+				labelErrorSinSeleccionTransf.setVisible(false);
 			}
 			else
 				if (i==2) {
@@ -72,6 +75,7 @@ public class ErrorWalletUI extends JDialog {
 					labelCambiosGuardadosOK.setVisible(false);
 					labelValidacionOK.setVisible(false);
 					labelTransfOK.setVisible(true);
+					labelErrorSinSeleccionTransf.setVisible(false);
 				}
 				else
 					if (i==3) {
@@ -81,6 +85,7 @@ public class ErrorWalletUI extends JDialog {
 						labelTransfOK.setVisible(false);
 						labelValidacionOK.setVisible(false);
 						labelCambiosGuardadosOK.setVisible(true);
+						labelErrorSinSeleccionTransf.setVisible(false);
 						
 					}
 					else
@@ -91,7 +96,18 @@ public class ErrorWalletUI extends JDialog {
 							labelTransfOK.setVisible(false);
 							labelCambiosGuardadosOK.setVisible(false);
 							labelValidacionOK.setVisible(true);
+							labelErrorSinSeleccionTransf.setVisible(false);
 						}
+						else
+							if (i==5) {
+								labelErrorSinSeleccionTransf.setVisible(true);
+								labelError.setVisible(false);
+								labelWalletIngresadaNoExiste.setVisible(false);
+								labelErrorSiMismo.setVisible(false);
+								labelTransfOK.setVisible(false);
+								labelCambiosGuardadosOK.setVisible(false);
+								labelValidacionOK.setVisible(false);
+							}
 			
 		
 		
@@ -103,6 +119,9 @@ public class ErrorWalletUI extends JDialog {
 		});
 		botonOK.setBounds(105, 98, 85, 21);
 		contentPanel.add(botonOK);
+		labelErrorSinSeleccionTransf.setBounds(21, 67, 329, 13);
+		
+		contentPanel.add(labelErrorSinSeleccionTransf);
 		
 		
 		
