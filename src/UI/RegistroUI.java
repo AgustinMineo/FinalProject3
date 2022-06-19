@@ -138,7 +138,6 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 					String email=textoEmail.getText().toString()+"@"+comboMailProviders.getSelectedItem().toString();
 					Usuario nuevo=new Usuario(email,String.valueOf(password1.getPassword()),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString(),LocalDateTime.now());
 					map.put(nuevo.getEmail(), nuevo);
-
 					guardaArchivoUsuarios(map);
 					MenuUI vent=new MenuUI(nuevo,map,listaTransferencias);
 					frame.dispose();
