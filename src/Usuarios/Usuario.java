@@ -12,11 +12,8 @@ public class Usuario{
         private String apellido;
         private String nombre;
         private String dni;
-        
-
+        private LocalDateTime fechaNacimiento;
 		private LocalDateTime issuedDate;
-
-
 
         public Usuario() {}
 

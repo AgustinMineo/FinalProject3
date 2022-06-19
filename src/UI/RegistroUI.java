@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 
 import Usuarios.Usuario;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 import Interface.GuardaArchivoUsuarios;
 import Interface.UserValidationsRegistro;
@@ -32,6 +34,8 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JComboBox;
+import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
 
 
 public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios{
@@ -41,17 +45,20 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	private JTextField textoNombre;
 	private JTextField textoApellido;
 	private JTextField textoDNI;
-	private JTextField textoPassword;
 	private JLabel labelErrorEmail = new JLabel("Email Ingresado ya existe o es invalido.");
 	private JLabel labelErrorDNI;
 	private JLabel lblOblig;
 	private JLabel lblOblig2;
 	private JLabel lblOblig3;
 	private JLabel lblInfoOblig;
-	private JTextField textoPassword2;
 	private JLabel lblOblig4;
 	private JLabel labelPasswordIncorrecta;
 	private JComboBox comboMailProviders = new JComboBox();
+	private JPasswordField password1;
+	private JPasswordField password2;
+	private JLabel labelEdad;
+	private JSpinner spinnerEdad;
+	private JLabel labelErrorEdad;
 
 	public RegistroUI(HashMap<String,Usuario>map,List<Transferencia> listaTransferencias) {
 		initialize(map,listaTransferencias);
@@ -61,7 +68,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	private void initialize(HashMap<String,Usuario>map,List<Transferencia>listaTransferencias) {
 		frame = new JFrame();
 		frame.setTitle("Registracion");
-		frame.setBounds(475, 275, 580, 243);
+		frame.setBounds(475, 275, 580, 310);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -89,16 +96,16 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		textoDNI.setBounds(63, 97, 118, 19);
 		frame.getContentPane().add(textoDNI);
 		
-		textoPassword = new JTextField();
-		textoPassword.setText("Ingrese Password");
-		textoPassword.setColumns(10);
-		textoPassword.setBounds(63, 126, 118, 19);
-		frame.getContentPane().add(textoPassword);
-		
 		JButton botonRegistrarse = new JButton("REGISTRARSE");
 		botonRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int cont=0;
+				if (!validaEdad((int)spinnerEdad.getValue())) {
+					labelErrorEdad.setVisible(false);
+				}
+				else
+					labelErrorEdad.setVisible(true);
+				
 				if (validaEmail(map,textoEmail.getText().toString()+"@"+comboMailProviders.getSelectedItem().toString()) || emailValido(textoEmail.getText().toString())) {
 					labelErrorEmail.setVisible(true);
 				}	
@@ -112,14 +119,14 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 					labelErrorDNI.setVisible(false);
 					cont++;
 				}
-				if (!validaPassword(textoPassword.getText().toString(),textoPassword2.getText().toString()))
+				if (!validaPassword(String.valueOf(password1.getPassword()),String.valueOf(password2.getPassword())))
 					labelPasswordIncorrecta.setVisible(true);
 				else {
 					labelPasswordIncorrecta.setVisible(false);
 					cont++;
 				}
 				if (cont==3) {
-					Usuario nuevo=new Usuario(textoEmail.getText().toString(),textoPassword.getText().toString(),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString(),LocalDateTime.now());
+					Usuario nuevo=new Usuario(textoEmail.getText().toString(),String.valueOf(password1.getPassword()),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString(),LocalDateTime.now());
 					map.put(nuevo.getEmail(), nuevo);
 
 					guardaArchivoUsuarios(map);
@@ -133,12 +140,12 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		
 		
 		labelErrorEmail.setForeground(Color.RED);
-		labelErrorEmail.setBounds(263, 126, 293, 13);
+		labelErrorEmail.setBounds(326, 126, 293, 13);
 		frame.getContentPane().add(labelErrorEmail);
 		
 		labelErrorDNI = new JLabel("DNI ingresado ya existe");
 		labelErrorDNI.setForeground(Color.RED);
-		labelErrorDNI.setBounds(263, 100, 157, 13);
+		labelErrorDNI.setBounds(350, 100, 157, 13);
 		frame.getContentPane().add(labelErrorDNI);
 		
 		lblOblig = new JLabel("*");
@@ -156,29 +163,23 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		lblOblig3 = new JLabel("*");
 		lblOblig3.setForeground(Color.RED);
 		lblOblig3.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblOblig3.setBounds(191, 129, 45, 13);
+		lblOblig3.setBounds(191, 141, 45, 13);
 		frame.getContentPane().add(lblOblig3);
 		
 		lblInfoOblig = new JLabel("(*) Son campos requeridos");
 		lblInfoOblig.setForeground(Color.RED);
-		lblInfoOblig.setBounds(178, 183, 278, 13);
+		lblInfoOblig.setBounds(289, 186, 278, 13);
 		frame.getContentPane().add(lblInfoOblig);
-		
-		textoPassword2 = new JTextField();
-		textoPassword2.setText("Repita Password");
-		textoPassword2.setColumns(10);
-		textoPassword2.setBounds(63, 154, 118, 19);
-		frame.getContentPane().add(textoPassword2);
 		
 		lblOblig4 = new JLabel("*");
 		lblOblig4.setForeground(Color.RED);
 		lblOblig4.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblOblig4.setBounds(191, 152, 45, 13);
+		lblOblig4.setBounds(191, 186, 45, 13);
 		frame.getContentPane().add(lblOblig4);
 		
 		labelPasswordIncorrecta = new JLabel("Password deben ser iguales y mayores a 6 caracteres");
 		labelPasswordIncorrecta.setForeground(Color.RED);
-		labelPasswordIncorrecta.setBounds(226, 160, 330, 13);
+		labelPasswordIncorrecta.setBounds(252, 163, 367, 13);
 		frame.getContentPane().add(labelPasswordIncorrecta);
 		
 		JButton botonVolver = new JButton("VOLVER");
@@ -189,7 +190,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 				frame.dispose();
 			}
 		});
-		botonVolver.setBounds(453, 179, 85, 21);
+		botonVolver.setBounds(471, 226, 85, 21);
 		frame.getContentPane().add(botonVolver);
 		
 		
@@ -203,6 +204,37 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		JLabel lblArroba = new JLabel("@");
 		lblArroba.setBounds(191, 13, 45, 13);
 		frame.getContentPane().add(lblArroba);
+		
+		password1 = new JPasswordField();
+		password1.setToolTipText("");
+		password1.setBounds(63, 138, 118, 19);
+		frame.getContentPane().add(password1);
+		
+		JLabel labelContraseña = new JLabel("Ingrese Contrase\u00F1a");
+		labelContraseña.setBounds(63, 126, 134, 13);
+		frame.getContentPane().add(labelContraseña);
+		
+		JLabel labelContraseña2 = new JLabel("Repita Contrase\u00F1a");
+		labelContraseña2.setBounds(63, 170, 134, 13);
+		frame.getContentPane().add(labelContraseña2);
+		
+		password2 = new JPasswordField();
+		password2.setToolTipText("");
+		password2.setBounds(63, 183, 118, 19);
+		frame.getContentPane().add(password2);
+		
+		labelEdad = new JLabel("Ingrese Edad");
+		labelEdad.setBounds(63, 212, 118, 13);
+		frame.getContentPane().add(labelEdad);
+		SpinnerModel value = new SpinnerNumberModel(0,0, 110,1);
+		spinnerEdad = new JSpinner(value);
+		spinnerEdad.setBounds(63, 227, 54, 20);
+		frame.getContentPane().add(spinnerEdad);
+		
+		labelErrorEdad = new JLabel("Edad debe ser mayor a 18");
+		labelErrorEdad.setForeground(Color.RED);
+		labelErrorEdad.setBounds(336, 141, 258, 13);
+		frame.getContentPane().add(labelErrorEdad);
 		labelErrorDNI.setVisible(false);
 		labelErrorEmail.setVisible(false);
 		labelPasswordIncorrecta.setVisible(false);
@@ -263,7 +295,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
 			 try {
 		         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
-				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.json");
+				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json");
 		         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				 String gsonString = gson.toJson(map);
@@ -277,5 +309,13 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		     } catch (JsonIOException e){
 				 e.printStackTrace();
 			 }
+	}
+
+	@Override
+	public boolean validaEdad(int edad) {
+		if (edad<18)
+			return false;
+		else
+			return true;
 	}
 }

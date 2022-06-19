@@ -24,8 +24,8 @@ public class Main{
 		map.put(nuevo.getEmail(),nuevo);
 		map.put(nuevo1.getEmail(),nuevo1);
 	*/
-		map=cargaHashUsuarios();
-		lista=cargaListaTransferencias();
+		//map=cargaHashUsuarios();
+		//lista=cargaListaTransferencias();
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
 			// Printing all elements of a Map
 			System.out.println("\n");
@@ -39,7 +39,7 @@ public class Main{
 	public static HashMap<String,Usuario> cargaHashUsuarios() {
 		try {
 			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json"));
-			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.json"));
+			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
 			Gson gson = new Gson();
 			Type empMapType = new TypeToken< HashMap <String, Usuario>>() {}.getType();
 			HashMap<String,Usuario> map= gson.fromJson(fileElement,empMapType);
@@ -55,7 +55,7 @@ public class Main{
 	public static List<Transferencia> cargaListaTransferencias() {
 		try {
 	         //FileInputStream fileIn = new FileInputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
-			 FileInputStream fileIn = new FileInputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
+			 FileInputStream fileIn = new FileInputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	         lista = (List<Transferencia>) in.readObject();
 	         in.close();
