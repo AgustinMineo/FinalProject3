@@ -40,28 +40,31 @@ import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 
-
 public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios{
-
 	private JFrame frame;
 	private JTextField textoEmail;
 	private JTextField textoNombre;
 	private JTextField textoApellido;
 	private JTextField textoDNI;
 	private JLabel labelErrorEmail = new JLabel("Email Ingresado ya existe o es invalido.");
-	private JLabel labelErrorDNI;
-	private JLabel lblOblig;
-	private JLabel lblOblig2;
-	private JLabel lblOblig3;
-	private JLabel lblInfoOblig;
-	private JLabel lblOblig4;
-	private JLabel labelPasswordIncorrecta;
-	private JComboBox comboMailProviders = new JComboBox();
-	private JPasswordField password1;
-	private JPasswordField password2;
-	private JLabel labelEdad;
+	private JLabel labelErrorDNI = new JLabel("DNI ingresado ya existe o es invalido");
+	private JLabel lblOblig = new JLabel("*");
+	private JLabel lblOblig2 = new JLabel("*");
+	private JLabel lblOblig3 = new JLabel("*");
+	private JLabel lblInfoOblig = new JLabel("(*) Son campos requeridos");
+	private JLabel lblOblig4 = new JLabel("*");
+	private JLabel labelPasswordIncorrecta = new JLabel("Password deben ser iguales y mayores a 6 caracteres");;
+	private JLabel labelErrorEdad = new JLabel("Edad debe ser mayor a 18");
+	private JLabel labelContraseña = new JLabel("Ingrese Contrase\u00F1a");
+	private JLabel labelContraseña2 = new JLabel("Repita Contrase\u00F1a");
+	private JLabel labelEdad = new JLabel("Ingrese Edad");
+	private JLabel lblArroba = new JLabel("@");
+	private JPasswordField password2 = new JPasswordField();
+	private JPasswordField password1 = new JPasswordField("");
 	private JSpinner spinnerEdad;
-	private JLabel labelErrorEdad;
+	private JComboBox comboMailProviders = new JComboBox();
+	
+	private JButton botonRegistrarse = new JButton("REGISTRARSE");
 
 	public RegistroUI(HashMap<String,Usuario>map,List<Transferencia> listaTransferencias) {
 		initialize(map,listaTransferencias);
@@ -99,7 +102,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		textoDNI.setBounds(63, 97, 118, 19);
 		frame.getContentPane().add(textoDNI);
 		
-		JButton botonRegistrarse = new JButton("REGISTRARSE");
+		
 		botonRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int cont=0;
@@ -152,41 +155,37 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		labelErrorEmail.setBounds(252, 122, 293, 13);
 		frame.getContentPane().add(labelErrorEmail);
 		
-		labelErrorDNI = new JLabel("DNI ingresado ya existe o es invalido");
+		
 		labelErrorDNI.setForeground(Color.RED);
 		labelErrorDNI.setBounds(252, 102, 232, 13);
 		frame.getContentPane().add(labelErrorDNI);
 		
-		lblOblig = new JLabel("*");
+		
 		lblOblig.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblOblig.setForeground(Color.RED);
 		lblOblig.setBounds(339, 13, 45, 13);
 		frame.getContentPane().add(lblOblig);
 		
-		lblOblig2 = new JLabel("*");
 		lblOblig2.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblOblig2.setForeground(Color.RED);
 		lblOblig2.setBounds(191, 100, 45, 13);
 		frame.getContentPane().add(lblOblig2);
 		
-		lblOblig3 = new JLabel("*");
 		lblOblig3.setForeground(Color.RED);
 		lblOblig3.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblOblig3.setBounds(191, 141, 45, 13);
 		frame.getContentPane().add(lblOblig3);
 		
-		lblInfoOblig = new JLabel("(*) Son campos requeridos");
 		lblInfoOblig.setForeground(Color.RED);
 		lblInfoOblig.setBounds(289, 186, 278, 13);
 		frame.getContentPane().add(lblInfoOblig);
 		
-		lblOblig4 = new JLabel("*");
 		lblOblig4.setForeground(Color.RED);
 		lblOblig4.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblOblig4.setBounds(191, 186, 45, 13);
 		frame.getContentPane().add(lblOblig4);
 		
-		labelPasswordIncorrecta = new JLabel("Password deben ser iguales y mayores a 6 caracteres");
+		
 		labelPasswordIncorrecta.setForeground(Color.RED);
 		labelPasswordIncorrecta.setBounds(252, 162, 367, 13);
 		frame.getContentPane().add(labelPasswordIncorrecta);
@@ -209,29 +208,23 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		comboMailProviders.addItem("outlook.com");
 		comboMailProviders.addItem("yahoo.com");
 		
-		JLabel lblArroba = new JLabel("@");
 		lblArroba.setBounds(191, 13, 45, 13);
 		frame.getContentPane().add(lblArroba);
 		
-		password1 = new JPasswordField();
 		password1.setToolTipText("");
 		password1.setBounds(63, 138, 118, 19);
 		frame.getContentPane().add(password1);
 		
-		JLabel labelContraseña = new JLabel("Ingrese Contrase\u00F1a");
 		labelContraseña.setBounds(63, 126, 134, 13);
 		frame.getContentPane().add(labelContraseña);
 		
-		JLabel labelContraseña2 = new JLabel("Repita Contrase\u00F1a");
 		labelContraseña2.setBounds(63, 170, 134, 13);
 		frame.getContentPane().add(labelContraseña2);
 		
-		password2 = new JPasswordField();
 		password2.setToolTipText("");
 		password2.setBounds(63, 183, 118, 19);
 		frame.getContentPane().add(password2);
 		
-		labelEdad = new JLabel("Ingrese Edad");
 		labelEdad.setBounds(63, 212, 118, 13);
 		frame.getContentPane().add(labelEdad);
 		SpinnerModel value = new SpinnerNumberModel(0,0, 110,1);
@@ -239,7 +232,6 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		spinnerEdad.setBounds(63, 227, 54, 20);
 		frame.getContentPane().add(spinnerEdad);
 		
-		labelErrorEdad = new JLabel("Edad debe ser mayor a 18");
 		labelErrorEdad.setForeground(Color.RED);
 		labelErrorEdad.setBounds(252, 142, 258, 13);
 		frame.getContentPane().add(labelErrorEdad);
@@ -301,7 +293,6 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 			return false;
 	}
 	
-
 	@Override
 	public boolean validaEdad(int edad) {
 		if (edad<18)
@@ -317,7 +308,6 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		else
 			return false;
 	}
-	
 	
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
