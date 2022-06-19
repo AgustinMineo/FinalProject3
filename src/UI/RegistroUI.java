@@ -1,6 +1,7 @@
 package UI;
 
 import java.awt.EventQueue;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,17 +15,18 @@ import javax.swing.JTextField;
 import Interface.GuardaArchivoUsuarios;
 import Interface.UserValidationsRegistro;
 import Transfers.Transferencia;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
+
 
 public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios{
 
@@ -111,8 +113,9 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 				if (cont==3) {
 					Usuario nuevo=new Usuario(textoEmail.getText().toString(),textoPassword.getText().toString(),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString(),LocalDateTime.now());
 					map.put(nuevo.getEmail(), nuevo);
+
 					guardaArchivoUsuarios(map);
-					//Abrir MENU UI
+					MenuUI vent=new MenuUI(nuevo,map,listaTransferencias);
 					frame.dispose();
 				}
 			}
@@ -235,15 +238,26 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
 			 try {
-		         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL\\listaUsuarios.ser");
-				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
+		         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
+				 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
 		         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-		         out.writeObject(map);
-		         out.close();
-		         fileOut.close();
+				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				 String gsonString = gson.toJson(map);
+		         out.writeObject(gsonString);
+
+				 //fileOut.flush();
+		         //out.close();
+		         //fileOut.close();
+				/* JSONObject jsonObject = new JSONObject();
+				 jsonObject.put(user.getEmail(),user.toString());
+				 FileWriter file = new FileWriter("C:\Users\lcoluccio\Desktop\TP FINAL\listaUsuarios.json");
+				 file.write(jsonObject.toJSONString());
+				 file.close();*/
 		      } catch (IOException i) {
 		         i.printStackTrace();
-		     }
+		     } catch (JsonIOException e){
+				 e.printStackTrace();
+			 }
 	}
 }
 

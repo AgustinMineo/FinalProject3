@@ -1,10 +1,11 @@
 package Usuarios;
 
-import Interface.UserValidation;
+import Interface.UserValidationsLogin;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Login implements UserValidation {
+public class Login {
     private String email;
     private UUID code64;
     private String password;
@@ -30,6 +31,4 @@ public class Login implements UserValidation {
     public String getPassword() {return password;}
 
     public void setPassword(String password) {this.password = password;}
-
-
 }

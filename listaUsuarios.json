@@ -1,0 +1,90 @@
+{
+  "a": {
+    "email": "a",
+    "code64": "6fc10afb-3916-494b-be2e-6a12a00ec390",
+    "password": "1234567",
+    "utnCoins": 99.0,
+    "apellido": "a",
+    "nombre": "a",
+    "dni": "123456",
+    "issuedDate": {
+      "date": {
+        "year": 2022,
+        "month": 6,
+        "day": 19
+      },
+      "time": {
+        "hour": 17,
+        "minute": 50,
+        "second": 47,
+        "nano": 736000000
+      }
+    }
+  },
+  "s": {
+    "email": "s",
+    "code64": "7b95b3e1-2eed-4a68-95b0-95fce9c3a06d",
+    "password": "1234567",
+    "utnCoins": 90.0,
+    "apellido": "s",
+    "nombre": "s",
+    "dni": "1234562",
+    "issuedDate": {
+      "date": {
+        "year": 2022,
+        "month": 6,
+        "day": 19
+      },
+      "time": {
+        "hour": 17,
+        "minute": 52,
+        "second": 17,
+        "nano": 923000000
+      }
+    }
+  },
+  "Ingrese Email": {
+    "email": "Ingrese Email",
+    "code64": "cb7eae6f-d970-4c0d-b56d-71406b83762c",
+    "password": "1234567",
+    "utnCoins": 100.0,
+    "apellido": "Ingrese Apellido",
+    "nombre": "Ingrese Nombre",
+    "dni": "123456s",
+    "issuedDate": {
+      "date": {
+        "year": 2022,
+        "month": 6,
+        "day": 19
+      },
+      "time": {
+        "hour": 18,
+        "minute": 49,
+        "second": 29,
+        "nano": 14000000
+      }
+    }
+  },
+  "jos": {
+    "email": "jos",
+    "code64": "55eefac7-569d-4c20-9e25-5272d64428b9",
+    "password": "1234567",
+    "utnCoins": 100.0,
+    "apellido": "sd",
+    "nombre": "sd",
+    "dni": "12345621",
+    "issuedDate": {
+      "date": {
+        "year": 2022,
+        "month": 6,
+        "day": 19
+      },
+      "time": {
+        "hour": 18,
+        "minute": 22,
+        "second": 12,
+        "nano": 135000000
+      }
+    }
+  }
+}

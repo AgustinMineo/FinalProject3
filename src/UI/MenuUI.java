@@ -16,12 +16,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import Enums.TransferCause;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+
 import java.awt.Font;
 
 public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,GuardaArchivoUsuarios {
@@ -197,8 +202,7 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 		labelCausa.setBounds(33, 235, 278, 13);
 		frame.getContentPane().add(labelCausa);
 
-		//spinnerMonto = new JSpinner();
-		//new JSpinner(new SpinnerNumberModel(0,0,user.getUtnCoins()));
+
 		SpinnerModel value = new SpinnerNumberModel(0,0, user.getUtnCoins(),0.01);
 		spinnerMonto = new JSpinner(value);
 
@@ -285,8 +289,8 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
 		try {
-	         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL\\listaTransferencias.ser");
-			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
+	         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
+			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(listaTransferencias);
 	         out.close();
@@ -300,16 +304,18 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String, Usuario> map) {
 		try {
-	         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL\\listaUsuarios.ser");
-			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
-	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	         out.writeObject(map);
-	         out.close();
-	         fileOut.close();
+			FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
+			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String gsonString = gson.toJson(map);
+			out.writeObject(gsonString);
+			out.close();
+			fileOut.close();
 	      } catch (IOException i) {
 	         i.printStackTrace();
-	     }
-		
-		
+	     } catch (JsonIOException e){
+			e.printStackTrace();
+		}
 	}
 }

@@ -13,12 +13,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Enums.RejectCause;
 import Interface.GuardaArchivoTransferencias;
 import Interface.GuardaArchivoUsuarios;
 import Transfers.Finalizada;
 import Transfers.Pending;
+import Transfers.Rechazada;
 import Transfers.Transferencia;
 import Usuarios.Usuario;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -42,6 +47,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	private JButton botonValidar = new JButton("VALIDAR TRANSFERENCIA");
 	private int progreso;
 	private String progresoSt;
+	private String estado;
 
 	public HistorialTransferenciasUI(Usuario user,HashMap<String,Usuario> map,List<Transferencia>listaTransferencias) {
 		initialize(user,map,listaTransferencias);
@@ -65,35 +71,40 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    JScrollPane scrollPane = new JScrollPane(table);
 	    frame.getContentPane().add(scrollPane);
 	    scrollPane.setBounds(20, 46, 1123,324 ); 
-	    //try catch por si viene null en nodo
-	    System.out.println("Size transferencia: "+listaTransferencias.size());
+	    
 	    if (listaTransferencias.size()>0)
 	    	for (Transferencia i: listaTransferencias) {
 	    		if (i instanceof Pending) {
 	    		progreso=((Pending)i).getValidations();
-	    		if (progreso==0) 
+	    		if (progreso==0) {
 	    			progresoSt="0%";
+	    			estado="Pendiente";
+	    		}
 	    		else
-	    		if (progreso==1)
+	    		if (progreso==1) {
 	    			progresoSt="33%";
+	    			estado="Pendiente";
+	    		}
 	    		else
-	    		if (progreso==2)
+	    		if (progreso==2) {
 	    			progresoSt="66%";
-	    		if (i.getNodo().getCodeUserSend().equals(user.getCode64())){
-	    			Object o[]=new Object[] {i.getCodeIDTransfer(),i.getFechaDeEnvio(),i.getNodo().getCodeUserReceptor(),i.getNodo().getCoin().getAmountCoin(),i.getSendCause(),i.getClass().toString(),progresoSt};
-	    			model.addRow(o);
+	    			estado="Pendiente";
 	    		}
 	    		}
 	    		else
 	    			if (i instanceof Finalizada) {
 	    			 progresoSt="FINALIZADA";
-	    			 if (i.getNodo().getCodeUserSend().equals(user.getCode64())){
-	 	    			Object o[]=new Object[] {i.getCodeIDTransfer(),i.getFechaDeEnvio(),i.getNodo().getCodeUserReceptor(),i.getNodo().getCoin().getAmountCoin(),i.getSendCause(),i.getClass().toString(),progresoSt};
-	 	    			model.addRow(o);
-	 	    		}
-	    			 
-	    			}
-	    		
+	    			 estado="FINALIZADA";
+	    			}else {
+						if(i instanceof Rechazada){
+							progresoSt=((Rechazada) i).getCause().toString();
+							estado= "RECHAZADA";
+						}
+					}
+	    		if (i.getNodo().getCodeUserSend().equals(user.getCode64())){
+ 	    			Object o[]=new Object[] {i.getCodeIDTransfer(),i.getFechaDeInicio(),i.getNodo().getCodeUserReceptor(),i.getNodo().getCoin().getAmountCoin(),i.getSendCause(),estado,progresoSt};
+ 	    			model.addRow(o);
+ 	    		}
 	    	}
 	    table.setVisible(false);
 	    //frame.getContentPane().remove(scrollPane);
@@ -112,21 +123,34 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    	for (Transferencia i: listaTransferencias) {
 	    		if (i instanceof Pending) {
 	    		progreso=((Pending)i).getValidations();
-	    		if (progreso==0) 
+	    		if (progreso==0) {
 	    			progresoSt="0%";
+	    			estado="Pendiente";
+	    		}
 	    		else
-	    		if (progreso==1)
+	    		if (progreso==1) {
 	    			progresoSt="33%";
+	    			estado="Pendiente";
+	    		}
 	    		else
-	    		if (progreso==2)
+	    		if (progreso==2) {
 	    			progresoSt="66%";
+	    			estado="Pendiente";
+	    		}
 	    		}
 	    		else
 	    			if (i instanceof Finalizada) {
 	    				progresoSt="FINALIZADA";
-	    			}
+	    				estado="FINALIZADO";
+	    			}else {
+						if(i instanceof Rechazada){
+							progresoSt=((Rechazada) i).getCause().toString();
+							estado= "RECHAZADA";
+						}
+					}
+
 	    		if (i.getNodo().getCodeUserReceptor().equals(user.getCode64())){
-	    			Object o2[]=new Object[] {i.getCodeIDTransfer(),i.getFechaDeEnvio(),i.getNodo().getCodeUserSend(),i.getNodo().getCoin().getAmountCoin(),i.getSendCause(),i.getClass().toString(),progresoSt};
+	    			Object o2[]=new Object[] {i.getCodeIDTransfer(),i.getFechaDeInicio(),i.getNodo().getCodeUserSend(),i.getNodo().getCoin().getAmountCoin(),i.getSendCause(),estado,progresoSt};
 	    			model2.addRow(o2);
 	    		}
 	    	}
@@ -154,11 +178,12 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    		else
 	    		if (progreso==2)
 	    			progresoSt="66%";
-	    		
-	    		if (!i.getNodo().getCodeUserReceptor().equals(user.getCode64()) && !i.getNodo().getCodeUserSend().equals(user.getCode64())  || (((Pending) i).getValidations()<2)){
-	    			Object o3[]=new Object[] {i.getCodeIDTransfer(),i.getFechaDeEnvio(),i.getNodo().getCodeUserSend(),i.getNodo().getCodeUserReceptor(),i.getClass().toString(),progresoSt};
+				if(!((Pending)i).validateUserKeys(user.getEmail())){
+	    			if (!i.getNodo().getCodeUserReceptor().equals(user.getCode64()) && !i.getNodo().getCodeUserSend().equals(user.getCode64())  && (((Pending) i).getValidations()<3)){
+	    			Object o3[]=new Object[] {i.getCodeIDTransfer(),i.getFechaDeInicio(),i.getNodo().getCodeUserSend(),i.getNodo().getCodeUserReceptor(),"Pendiente",progresoSt};
 	    			model3.addRow(o3);
-	    		}
+	    			}
+				}
 	    	}
 	    	}
 		table3.setVisible(false);
@@ -206,8 +231,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    		botonValidar.setVisible(false);
 	    	}
 	    });
-	    
-	    
+
 	    radioTransfrenciasRealizadas.setBounds(133, 6, 232, 21);
 	    frame.getContentPane().add(radioTransfrenciasRealizadas);
 	    radioValidarTransacciones.addActionListener(new ActionListener() {
@@ -227,49 +251,68 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    radioValidarTransacciones.setBounds(655, 6, 275, 21);
 	    frame.getContentPane().add(radioValidarTransacciones);
 	    
-	    
 	    labelSeleccioneTransferenciaParaValidar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 	    labelSeleccioneTransferenciaParaValidar.setBounds(323, 398, 404, 13);
 	    frame.getContentPane().add(labelSeleccioneTransferenciaParaValidar);
 	    labelSeleccioneTransferenciaParaValidar.setVisible(false);
 	    
 	    botonValidar.setVisible(false);
+		/// Boton validar transferencia
 	    botonValidar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
+	    		if (table3.getSelectedRow()==-1) {
+	    			ErrorWalletUI error = new ErrorWalletUI(5);
+	    			error.setVisible(true);
+	    		}
+	    		else {
 	    		int pos=searchNodo(listaTransferencias,table3.getValueAt(table3.getSelectedRow(), 0).toString());
-	    		if (((Pending) listaTransferencias.get(pos)).getValidations()<3) {
-	    			((Pending) listaTransferencias.get(pos)).addValidations();
+	    		if (((Pending) listaTransferencias.get(pos)).getValidations()<2) {
+					//String [] aux = ((Pending) listaTransferencias.get(pos)).getUserKeys());
+					if(((Pending) listaTransferencias.get(pos)).validateUserKeys(user.getEmail())) {
+						System.out.println("Error, usuario ya valido la transferencia");
+					}else{
+
+						if(((Pending) listaTransferencias.get(pos)).getFechaDeInicio().isAfter(LocalDateTime.now().minusMinutes(1))){
+	    			((Pending) listaTransferencias.get(pos)).addValidations(user.getEmail());
 	    			guardaArchivoTransferencias(listaTransferencias);
+	    			frame.dispose();
+		    		HistorialTransferenciasUI vent=new HistorialTransferenciasUI(user,map,listaTransferencias);
 	    			ErrorWalletUI error = new ErrorWalletUI(4);
 					error.setVisible(true);
+						} else {
+							Rechazada rechazo = new Rechazada(((Pending) listaTransferencias.get(pos)).getFechaDeInicio(),listaTransferencias.get(pos).getNodo(),listaTransferencias.get(pos).getSendCause(),RejectCause.timeOut,((Pending) listaTransferencias.get(pos)),LocalDateTime.now());
+
+							listaTransferencias.add(rechazo);
+							listaTransferencias.remove(pos);
+							guardaArchivoTransferencias(listaTransferencias);
+							frame.dispose();
+							HistorialTransferenciasUI vent=new HistorialTransferenciasUI(user,map,listaTransferencias);
+						}
+
+					}
 	    		}
 	    		else
 		    		{
-	    				
-		    			//eliminar nodo de pending en lista transfrencia
-	    				//crear instancia de finalizado 
-    					//agregar a lista transfrencia la instancia finalizada
-	    				//guardar archivo de transfrencias
-	    				//dar saldo a cuenta receptora
-	    				//guardar archivo de usuarios
-	    				Finalizada nueva=new Finalizada(LocalDateTime.now(),listaTransferencias.get(pos).getFechaDeEnvio(),LocalDateTime.now(),listaTransferencias.get(pos).getNodo(),listaTransferencias.get(pos).getSendCause());
+	    				Finalizada nueva=new Finalizada(LocalDateTime.now(),listaTransferencias.get(pos).getFechaDeInicio(),listaTransferencias.get(pos).getNodo(),listaTransferencias.get(pos).getSendCause());
 	    				listaTransferencias.remove(pos);
 	    				listaTransferencias.add(nueva);
 	    				guardaArchivoTransferencias(listaTransferencias);
-	    				map.get(searchUser(map,table3.getValueAt(table3.getSelectedRow(), 2).toString())).agregaSaldo(nueva.getNodo().getCoin().getAmountCoin());
+	    				map.get(searchUser(map,table3.getValueAt(table3.getSelectedRow(), 3).toString())).agregaSaldo(nueva.getNodo().getCoin().getAmountCoin());
+	    				guardaArchivoUsuarios(map);
+	    				frame.dispose();
+			    		HistorialTransferenciasUI vent=new HistorialTransferenciasUI(user,map,listaTransferencias);
 	    				ErrorWalletUI error = new ErrorWalletUI(4);
 						error.setVisible(true);
 		    		}
-		    		
-	    		frame.dispose();
-	    		HistorialTransferenciasUI vent=new HistorialTransferenciasUI(user,map,listaTransferencias);
+	    		}
+	    		
 	    	}
 	    });
 	    botonValidar.setBounds(670, 395, 199, 21);
 	    frame.getContentPane().add(botonValidar);
 	}
 	
-	
+	/// Migrar a transferValidations
 	public int searchNodo(List<Transferencia> listaTransferencias, String codeTransfer) {
         int i = 0;
         int pos=-1;
@@ -292,12 +335,13 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 		}
 		return key;
 	}
+	/// Migrar a transferValidations
 
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
 		try {
-	         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL\\listaTransferencias.ser");
-			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
+	         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
+			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(listaTransferencias);
 	         out.close();
@@ -310,15 +354,20 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String, Usuario> map) {
+
 		try {
-	         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL\\listaUsuarios.ser");
-			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
-	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	         out.writeObject(map);
-	         out.close();
-	         fileOut.close();
-	      } catch (IOException i) {
-	         i.printStackTrace();
-	     }
-}
+			FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
+			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String gsonString = gson.toJson(map);
+			out.writeObject(gsonString);
+			out.close();
+			fileOut.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+		} catch (JsonIOException e){
+			e.printStackTrace();
+		}
+	}
 }

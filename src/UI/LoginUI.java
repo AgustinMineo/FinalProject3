@@ -11,6 +11,7 @@ import Usuarios.Usuario;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.UUID;
 
-public class LoginUI implements UserValidationsLogin{
+public class LoginUI implements UserValidationsLogin {
 
 	private JFrame frame;
 	private JTextField textoEmail;
@@ -54,7 +55,7 @@ public class LoginUI implements UserValidationsLogin{
 			public void actionPerformed(ActionEvent e) {
 				Usuario user=validaEmail(map,textoEmail.getText().toString());
 				if(validaPassword(user,textoPassword.getText().toString()) && validaWallet(user,textoWallet.getText().toString())){
-					//Abrir UI de menu principal
+					MenuUI ventana=new MenuUI(user,map,listaTransferencias);
 					frame.dispose();
 				}else{
 					labelErrorwalletOpw.setVisible(true);
