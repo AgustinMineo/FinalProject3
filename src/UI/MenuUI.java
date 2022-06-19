@@ -309,14 +309,8 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String, Usuario> map) {
 		try {
-	        /* FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaUsuarios.ser");
-			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
-	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	         out.writeObject(map);
-	         out.close();
-	         fileOut.close();*/
-			FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
-			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
+			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
+			FileOutputStream fileOut=  new FileOutputStream("C:\Users\lcoluccio\Desktop\GIT\FinalProject3\\listaUsuarios.json");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String gsonString = gson.toJson(map);
