@@ -27,7 +27,10 @@ import com.google.gson.JsonParseException;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -100,12 +103,15 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		botonRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int cont=0;
-				if (!validaEdad((int)spinnerEdad.getValue())) {
-					labelErrorEdad.setVisible(false);
-				}
-				else
+				if (validaEdad((int)spinnerEdad.getValue())) {
 					labelErrorEdad.setVisible(true);
-				
+				}
+				else {
+					labelErrorEdad.setVisible(false);
+					cont++;
+				}
+					
+					
 				if (validaEmail(map,textoEmail.getText().toString()+"@"+comboMailProviders.getSelectedItem().toString()) || emailValido(textoEmail.getText().toString())) {
 					labelErrorEmail.setVisible(true);
 				}	
@@ -113,20 +119,24 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 					labelErrorEmail.setVisible(false);
 					cont++;
 				}
-				if (validaDNI(map, textoDNI.getText().toString())) 
+				
+				if (validaDNI(map, textoDNI.getText().toString()) || dniValido(textoDNI.getText().toString())) 
 					labelErrorDNI.setVisible(true);
 				else {
 					labelErrorDNI.setVisible(false);
 					cont++;
 				}
+				
 				if (!validaPassword(String.valueOf(password1.getPassword()),String.valueOf(password2.getPassword())))
 					labelPasswordIncorrecta.setVisible(true);
 				else {
 					labelPasswordIncorrecta.setVisible(false);
 					cont++;
 				}
-				if (cont==3) {
-					Usuario nuevo=new Usuario(textoEmail.getText().toString(),String.valueOf(password1.getPassword()),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString(),LocalDateTime.now());
+				
+				if (cont==4) {
+					String email=textoEmail.getText().toString()+"@"+comboMailProviders.getSelectedItem().toString();
+					Usuario nuevo=new Usuario(email,String.valueOf(password1.getPassword()),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString(),LocalDateTime.now());
 					map.put(nuevo.getEmail(), nuevo);
 
 					guardaArchivoUsuarios(map);
@@ -140,12 +150,12 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		
 		
 		labelErrorEmail.setForeground(Color.RED);
-		labelErrorEmail.setBounds(326, 126, 293, 13);
+		labelErrorEmail.setBounds(252, 122, 293, 13);
 		frame.getContentPane().add(labelErrorEmail);
 		
-		labelErrorDNI = new JLabel("DNI ingresado ya existe");
+		labelErrorDNI = new JLabel("DNI ingresado ya existe o es invalido");
 		labelErrorDNI.setForeground(Color.RED);
-		labelErrorDNI.setBounds(350, 100, 157, 13);
+		labelErrorDNI.setBounds(252, 102, 232, 13);
 		frame.getContentPane().add(labelErrorDNI);
 		
 		lblOblig = new JLabel("*");
@@ -179,7 +189,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		
 		labelPasswordIncorrecta = new JLabel("Password deben ser iguales y mayores a 6 caracteres");
 		labelPasswordIncorrecta.setForeground(Color.RED);
-		labelPasswordIncorrecta.setBounds(252, 163, 367, 13);
+		labelPasswordIncorrecta.setBounds(252, 162, 367, 13);
 		frame.getContentPane().add(labelPasswordIncorrecta);
 		
 		JButton botonVolver = new JButton("VOLVER");
@@ -192,7 +202,6 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		});
 		botonVolver.setBounds(471, 226, 85, 21);
 		frame.getContentPane().add(botonVolver);
-		
 		
 		comboMailProviders.setBounds(207, 9, 122, 21);
 		frame.getContentPane().add(comboMailProviders);
@@ -233,10 +242,11 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		
 		labelErrorEdad = new JLabel("Edad debe ser mayor a 18");
 		labelErrorEdad.setForeground(Color.RED);
-		labelErrorEdad.setBounds(336, 141, 258, 13);
+		labelErrorEdad.setBounds(252, 142, 258, 13);
 		frame.getContentPane().add(labelErrorEdad);
 		labelErrorDNI.setVisible(false);
 		labelErrorEmail.setVisible(false);
+		labelErrorEdad.setVisible(false);
 		labelPasswordIncorrecta.setVisible(false);
 
 		/*Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -261,7 +271,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	}
 	@Override
 	public boolean emailValido(String email) {
-		if (email.contains("/") || email.contains("@"))
+		if (email.contains("/") || email.contains("@") || email.contains(" "))
 			return true;
 		else
 			return false;
@@ -291,14 +301,34 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		else
 			return false;
 	}
+	
+
+	@Override
+	public boolean validaEdad(int edad) {
+		if (edad<18)
+			return true;
+		else
+			return false;
+	}
+
+	@Override
+	public boolean dniValido(String dni) {
+		if (dni.matches(".*[a-z].*") || dni.contains(" "))
+			return true;
+		else
+			return false;
+	}
+	
+	
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
 			 try {
 		         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
 				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json");
 		         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				 String gsonString = gson.toJson(map);
+		         Gson GSON = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (json, type, jsonDeserializationContext) ->
+		         ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toLocalDateTime()).create();
+				 String gsonString = GSON.toJson(map);
 				 out.flush();
 		         out.writeObject(gsonString);
 				 fileOut.flush();
@@ -309,13 +339,5 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		     } catch (JsonIOException e){
 				 e.printStackTrace();
 			 }
-	}
-
-	@Override
-	public boolean validaEdad(int edad) {
-		if (edad<18)
-			return false;
-		else
-			return true;
 	}
 }

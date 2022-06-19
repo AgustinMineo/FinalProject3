@@ -1,6 +1,7 @@
 import java.io.*;
 import java.lang.reflect.Type;
-
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +41,10 @@ public class Main{
 		try {
 			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json"));
 			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
-			Gson gson = new Gson();
+			Gson GSON = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (json, type, jsonDeserializationContext) ->
+	         ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toLocalDateTime()).create();
 			Type empMapType = new TypeToken< HashMap <String, Usuario>>() {}.getType();
-			HashMap<String,Usuario> map= gson.fromJson(fileElement,empMapType);
+			HashMap<String,Usuario> map= GSON.fromJson(fileElement,empMapType);
 	         return map;
 	      } catch (IOException i) {
 	         i.printStackTrace();

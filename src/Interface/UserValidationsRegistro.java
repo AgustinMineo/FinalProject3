@@ -9,7 +9,7 @@ public interface UserValidationsRegistro {
 	boolean validaEmail(HashMap<String,Usuario>map,String email);
 	boolean emailValido(String email);
 	boolean validaDNI(HashMap<String,Usuario>map, String dni);
+	boolean dniValido(String dni);
 	boolean validaPassword(String password,String password2);
 	boolean validaEdad(int edad);
-	
 }
