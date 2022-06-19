@@ -262,14 +262,20 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
 			 try {
-		         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL\\listaUsuarios.ser");
-				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
+		         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
+				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.json");
 		         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-		         out.writeObject(map);
+				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				 String gsonString = gson.toJson(map);
+				 out.flush();
+		         out.writeObject(gsonString);
+				 fileOut.flush();
 		         out.close();
 		         fileOut.close();
 		      } catch (IOException i) {
 		         i.printStackTrace();
-		     }
+		     } catch (JsonIOException e){
+				 e.printStackTrace();
+			 }
 	}
 }
