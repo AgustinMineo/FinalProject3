@@ -66,9 +66,6 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 		JLabel labelSaldoActual = new JLabel("Saldo Actual: "+user.getUtnCoins());
 		labelSaldoActual.setBounds(540, 42, 190, 13);
 		frame.getContentPane().add(labelSaldoActual);
-
-		
-		
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 754, 30);
@@ -127,8 +124,15 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 				frame.dispose();
 			}
 		});
+		JMenuItem salir=new JMenuItem("Salir");
+		salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		preferencias.add(verEditar);
 		preferencias.add(cerrarSesion);
+		preferencias.add(salir);
 		transferencias.add(verTransf);
 		transferencias.add(realizarTransf);
 		menuBar.add(preferencias);
@@ -202,7 +206,8 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 		labelCausa.setBounds(33, 235, 278, 13);
 		frame.getContentPane().add(labelCausa);
 
-
+		//spinnerMonto = new JSpinner();
+		//new JSpinner(new SpinnerNumberModel(0,0,user.getUtnCoins()));
 		SpinnerModel value = new SpinnerNumberModel(0,0, user.getUtnCoins(),0.01);
 		spinnerMonto = new JSpinner(value);
 
@@ -304,6 +309,12 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String, Usuario> map) {
 		try {
+	        /* FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaUsuarios.ser");
+			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(map);
+	         out.close();
+	         fileOut.close();*/
 			FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
 			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -317,5 +328,7 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	     } catch (JsonIOException e){
 			e.printStackTrace();
 		}
+		
+		
 	}
 }
