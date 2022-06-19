@@ -17,15 +17,21 @@ import Interface.UserValidationsRegistro;
 import Transfers.Transferencia;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JComboBox;
 
 
 public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios{
@@ -36,7 +42,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	private JTextField textoApellido;
 	private JTextField textoDNI;
 	private JTextField textoPassword;
-	private JLabel labelErrorEmail;
+	private JLabel labelErrorEmail = new JLabel("Email Ingresado ya existe o es invalido.");
 	private JLabel labelErrorDNI;
 	private JLabel lblOblig;
 	private JLabel lblOblig2;
@@ -45,6 +51,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	private JTextField textoPassword2;
 	private JLabel lblOblig4;
 	private JLabel labelPasswordIncorrecta;
+	private JComboBox comboMailProviders = new JComboBox();
 
 	public RegistroUI(HashMap<String,Usuario>map,List<Transferencia> listaTransferencias) {
 		initialize(map,listaTransferencias);
@@ -92,8 +99,9 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		botonRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int cont=0;
-				if (validaEmail(map,textoEmail.getText().toString())) 
-					labelErrorEmail.setVisible(true);		
+				if (validaEmail(map,textoEmail.getText().toString()+"@"+comboMailProviders.getSelectedItem().toString()) || emailValido(textoEmail.getText().toString())) {
+					labelErrorEmail.setVisible(true);
+				}	
 				else {
 					labelErrorEmail.setVisible(false);
 					cont++;
@@ -123,7 +131,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		botonRegistrarse.setBounds(226, 67, 258, 21);
 		frame.getContentPane().add(botonRegistrarse);
 		
-		labelErrorEmail = new JLabel("EMAIL ingresado ya existe");
+		
 		labelErrorEmail.setForeground(Color.RED);
 		labelErrorEmail.setBounds(263, 126, 293, 13);
 		frame.getContentPane().add(labelErrorEmail);
@@ -136,7 +144,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		lblOblig = new JLabel("*");
 		lblOblig.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblOblig.setForeground(Color.RED);
-		lblOblig.setBounds(191, 13, 45, 13);
+		lblOblig.setBounds(339, 13, 45, 13);
 		frame.getContentPane().add(lblOblig);
 		
 		lblOblig2 = new JLabel("*");
@@ -183,6 +191,18 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		});
 		botonVolver.setBounds(453, 179, 85, 21);
 		frame.getContentPane().add(botonVolver);
+		
+		
+		comboMailProviders.setBounds(207, 9, 122, 21);
+		frame.getContentPane().add(comboMailProviders);
+		comboMailProviders.addItem("gmail.com");
+		comboMailProviders.addItem("hotmail.com");
+		comboMailProviders.addItem("outlook.com");
+		comboMailProviders.addItem("yahoo.com");
+		
+		JLabel lblArroba = new JLabel("@");
+		lblArroba.setBounds(191, 13, 45, 13);
+		frame.getContentPane().add(lblArroba);
 		labelErrorDNI.setVisible(false);
 		labelErrorEmail.setVisible(false);
 		labelPasswordIncorrecta.setVisible(false);
@@ -193,7 +213,6 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 			}
 		}));*/
 	}
-
 	@Override
 	public boolean validaEmail(HashMap<String,Usuario> map, String email) {
 		int i=0;
@@ -209,6 +228,13 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 			return true;
 	}
 	@Override
+	public boolean emailValido(String email) {
+		if (email.contains("/") || email.contains("@"))
+			return true;
+		else
+			return false;
+	}
+	@Override
 	public boolean validaDNI(HashMap<String,Usuario> map, String dni) {
 		int i=0;
 		Iterator iterator = map.entrySet().iterator();
@@ -222,7 +248,6 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		else
 			return true;
 	}
-
 	@Override
 	public boolean validaPassword(String password,String password2) {
 		if (password.length()>6 && password2.length()>6) {
@@ -234,31 +259,17 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 		else
 			return false;
 	}
-
 	@Override
 	public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
 			 try {
-		         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
-				 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
+		         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL\\listaUsuarios.ser");
+				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
 		         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				 String gsonString = gson.toJson(map);
-		         out.writeObject(gsonString);
-
-				 //fileOut.flush();
-		         //out.close();
-		         //fileOut.close();
-				/* JSONObject jsonObject = new JSONObject();
-				 jsonObject.put(user.getEmail(),user.toString());
-				 FileWriter file = new FileWriter("C:\Users\lcoluccio\Desktop\TP FINAL\listaUsuarios.json");
-				 file.write(jsonObject.toJSONString());
-				 file.close();*/
+		         out.writeObject(map);
+		         out.close();
+		         fileOut.close();
 		      } catch (IOException i) {
 		         i.printStackTrace();
-		     } catch (JsonIOException e){
-				 e.printStackTrace();
-			 }
+		     }
 	}
 }
-
-
