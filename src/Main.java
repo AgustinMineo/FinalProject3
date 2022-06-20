@@ -28,6 +28,7 @@ public class Main{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		//Muestro usuarios precargados
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
 			System.out.println(set.getKey() + " = " + set.getValue());
 		}
@@ -60,7 +61,7 @@ public class Main{
 	         fileIn.close();
 	         return lista;
 	      } catch (IOException i) {
-	         i.printStackTrace();
+	    	  i.printStackTrace();
 	         return null;
 	      } catch (ClassNotFoundException c) {
 	         c.printStackTrace();
