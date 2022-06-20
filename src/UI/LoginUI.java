@@ -54,10 +54,11 @@ public class LoginUI implements UserValidationsLogin {
 		
 		JButton botonLogin = new JButton("LOGIN");
 		botonLogin.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				Usuario user=validaEmail(map,textoEmail.getText().toString());
-				System.out.println(passwordBox.getPassword());
 				if(validaPassword(user,passwordBox.getText()) && validaWallet(user,textoWallet.getText().toString())){
+					@SuppressWarnings("unused")
 					MenuUI ventana=new MenuUI(user,map,listaTransferencias);
 					frame.dispose();
 				}else{
