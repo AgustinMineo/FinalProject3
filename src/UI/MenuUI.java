@@ -89,9 +89,10 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 			}
 		});
 		
-		JMenuItem verTransf=new JMenuItem("Ver Historial Transacciones");
+		JMenuItem verTransf=new JMenuItem("Ver Historial Transferencias");
 		verTransf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unused")
 				HistorialTransferenciasUI vent=new HistorialTransferenciasUI(user,map,listaTransferencias);
 				frame.dispose();
 			}
@@ -174,6 +175,11 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 						if (!validateWallet(user.getCode64(), textoReceptor.getText().toString()))
 							throw new Exception ();
 						else {
+							if ((double)spinnerMonto.getValue()==0) {
+								ErrorWalletUI error=new ErrorWalletUI(8);
+								error.setVisible(true);
+							}
+							else {
 							try {
 								if(!validaCode64(textoReceptor.getText().toString(),map))
 									throw  new Exception();
@@ -191,11 +197,17 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 								ErrorWalletUI error=new ErrorWalletUI(1);
 								error.setVisible(true);
 							}
+							}
 						}
 					}catch (Exception e1){
 						ErrorWalletUI error=new ErrorWalletUI(0);
 						error.setVisible(true);
 					}
+				}
+				else
+				{
+					ErrorWalletUI error=new ErrorWalletUI(9);
+					error.setVisible(true);
 				}
 			}
 		});
@@ -205,8 +217,6 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 		labelCausa.setBounds(33, 235, 278, 13);
 		frame.getContentPane().add(labelCausa);
 
-		//spinnerMonto = new JSpinner();
-		//new JSpinner(new SpinnerNumberModel(0,0,user.getUtnCoins()));
 		SpinnerModel value = new SpinnerNumberModel(0,0, user.getUtnCoins(),0.01);
 		spinnerMonto = new JSpinner(value);
 
@@ -293,27 +303,21 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
 		try {
-			
-			
-			
-			Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaTransferencias.json"),"UTF-8");                 
-       	 	//Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
-			 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			 String gsonString = gson.toJson(listaTransferencias);
-			 fileOut.write(gsonString);
-			 fileOut.flush();
-			 fileOut.close();
+			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
+			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(listaTransferencias);
+	         out.close();
+	         fileOut.close();
 	      } catch (IOException i) {
 	         i.printStackTrace();
-	      } catch (JsonIOException e){
-              e.printStackTrace();
-          }
+	      }
 	}
 
 	@Override
     public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
              try {
-            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"),"UTF-8");                 
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"),"UTF-8");                 
             	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
 				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				 String gsonString = gson.toJson(map);

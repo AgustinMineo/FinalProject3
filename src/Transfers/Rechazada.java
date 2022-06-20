@@ -28,5 +28,8 @@ public final class Rechazada extends Transferencia{
 
     public void setRejectTime(LocalDateTime rejectTime) {this.rejectTime = rejectTime;}
 
-
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

@@ -18,9 +18,6 @@ public final class Finalizada extends Transferencia{
 
     @Override
     public String toString() {
-        return "Finalizada{" +
-                "pending=" + "aca iba pending" +
-                ", finishDate=" + finishDate +
-                '}';
+        return super.toString();
     }
 }

@@ -3,7 +3,7 @@ package Coins;
 
 public abstract class Coin {
     protected String nameCoin; /// Nombre de la moneda
-  
+
     protected double amountCoin; /// El valor en utnCoins de la moneda.
 
     public Coin(String nameCoin, double amountCoin) {

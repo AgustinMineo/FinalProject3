@@ -355,7 +355,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 						System.out.println("Error, usuario ya valido la transferencia");
 					}else{
 
-						if(((Pending) listaTransferencias.get(pos)).getFechaDeInicio().isAfter(LocalDateTime.now().minusMinutes(1))){
+						if(((Pending) listaTransferencias.get(pos)).getFechaDeInicio().isAfter(LocalDateTime.now().minusMinutes(5))){
 	    			((Pending) listaTransferencias.get(pos)).addValidations(user.getEmail());
 	    			guardaArchivoTransferencias(listaTransferencias);
 	    			frame.dispose();
@@ -364,7 +364,6 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 					error.setVisible(true);
 						} else {
 							Rechazada rechazo = new Rechazada(((Pending) listaTransferencias.get(pos)).getFechaDeInicio(),listaTransferencias.get(pos).getNodo(),listaTransferencias.get(pos).getSendCause(),RejectCause.timeOut,((Pending) listaTransferencias.get(pos)),LocalDateTime.now());
-
 							listaTransferencias.add(rechazo);
 							listaTransferencias.remove(pos);
 							guardaArchivoTransferencias(listaTransferencias);
@@ -388,7 +387,6 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 						error.setVisible(true);
 		    		}
 	    		}
-	    		
 	    	}
 	    });
 	    botonValidar.setBounds(670, 442, 199, 21);
@@ -422,8 +420,8 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
 		try {
-	         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
-			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
+	         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
+			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(listaTransferencias);
 	         out.close();
@@ -437,7 +435,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	@Override
     public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
              try {
-            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"),"UTF-8");                 
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\\\FinalProject3\\listaUsuarios.json"),"UTF-8");                 
             	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
 				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				 String gsonString = gson.toJson(map);
@@ -453,26 +451,30 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 
 	@Override
 	public void exportacionTxRealizadas(String path,List<Transferencia> listaTransferencias,String codEmisor) throws IOException {
-		int i=0;
 		File archivo;
 		//Consulto si el usuario digito .txt, ya que sino, agrego la extension.
 		if (path.contains(".txt"))
 		   archivo = new File(path);
 		else
 			archivo= new File(path+".txt");
-		   archivo.createNewFile();
+		    archivo.createNewFile();
 
 		try {
 			FileWriter writer = new FileWriter(archivo);
 			//Hearders de exportacion
-			writer.write("Emisor \t Receptor \t Cantidad \t Causa Envio \t Fecha Y Hora");
+			writer.write("Emisor \t Receptor \t Cantidad \t Causa Envio \t Fecha Y Hora \t Estado");
 			writer.write(System.getProperty( "line.separator" ));
-			while (listaTransferencias.size()>i) {
-				if (listaTransferencias.get(i).getNodo().getCodeUserSend().equals(codEmisor)) {
-					writer.write(listaTransferencias.get(i).toString());
+			for (Transferencia i:listaTransferencias) {
+				if (i.getNodo().getCodeUserSend().equals(codEmisor)) {
+					if (i instanceof Pending) 
+						estado="Pendiente";
+					else if (i instanceof Finalizada)
+						estado="Finalizada";
+					else if (i instanceof Rechazada)
+						estado="Rechazada";
+					writer.write(i.toString()+"\t"+i.getFechaDeInicio()+"\t"+estado);
 					writer.write(System.getProperty( "line.separator" ));
 				}
-					i++;
 			}
 			writer.close();	   
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -482,8 +484,8 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 
 	@Override
 	public void exportacionTxRecibidas(String path, List<Transferencia> listaTransferencias, String codReceptor)throws IOException {
-		int i=0;
 		File archivo;
+		String estado = new String();
 		//Consulto si el usuario digito .txt, ya que sino, agrego la extension.
 		if (path.contains(".txt"))
 		   archivo = new File(path);
@@ -494,14 +496,19 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 		try {
 			FileWriter writer = new FileWriter(archivo);
 			//Hearders de exportacion
-			writer.write("Emisor \t Receptor \t Cantidad \t Causa Envio \t Fecha Y Hora");
+			writer.write("Emisor \t Receptor \t Cantidad \t Causa Envio \t Fecha Y Hora \t Estado");
 			writer.write(System.getProperty( "line.separator" ));
-			while (listaTransferencias.size()>i) {
-				if (listaTransferencias.get(i).getNodo().getCodeUserReceptor().equals(codReceptor)) {
-					writer.write(listaTransferencias.get(i).toString());
+			for (Transferencia i:listaTransferencias) {
+				if (i.getNodo().getCodeUserReceptor().equals(codReceptor)) {
+					if (i instanceof Pending) 
+						estado="Pendiente";
+					else if (i instanceof Finalizada)
+						estado="Finalizada";
+					else if (i instanceof Rechazada)
+						estado="Rechazada";
+					writer.write(i.toString()+"\t"+i.getFechaDeInicio()+"\t"+estado);
 					writer.write(System.getProperty( "line.separator" ));
 				}
-					i++;
 			}
 			writer.close();	   
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
