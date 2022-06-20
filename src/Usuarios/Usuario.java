@@ -12,12 +12,11 @@ public class Usuario{
         private String apellido;
         private String nombre;
         private String dni;
-        private LocalDateTime fechaNacimiento;
-		private LocalDateTime issuedDate;
+        
 
         public Usuario() {}
 
-        public Usuario(String email, String password, String nombre,String apellido, String dni, LocalDateTime issued) {
+        public Usuario(String email, String password, String nombre,String apellido, String dni) {
         		this.code64=UUID.randomUUID();
                 this.email = email;
                 this.password = password;
@@ -25,17 +24,11 @@ public class Usuario{
                 this.nombre=nombre;
                 this.apellido = apellido;
                 this.dni = dni;
-                this.issuedDate = issued;
         }
 
         public String getNombre() {
 			return nombre;
 		}
-
-		public LocalDateTime getIssuedDate() {
-			return issuedDate;
-		}
-
 		public String getEmail() {return email;}
 
         public void setEmail(String email) {this.email = email;}
@@ -58,10 +51,6 @@ public class Usuario{
 
         public void setDni(String dni) {this.dni = dni;}
 
-        public LocalDateTime getLocal() {return issuedDate;}
-
-        public void setLocal(LocalDateTime issued) {this.issuedDate = issued;}
-        
         public void setNombre(String nombre) {this.nombre = nombre;}
         
         public void agregaSaldo (double saldo) {this.utnCoins+=saldo;}

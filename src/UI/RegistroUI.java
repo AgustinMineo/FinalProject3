@@ -24,6 +24,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -139,7 +140,7 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 				
 				if (cont==4) {
 					String email=textoEmail.getText().toString()+"@"+comboMailProviders.getSelectedItem().toString();
-					Usuario nuevo=new Usuario(email,String.valueOf(password1.getPassword()),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString(),LocalDateTime.now());
+					Usuario nuevo=new Usuario(email,String.valueOf(password1.getPassword()),textoNombre.getText().toString(),textoApellido.getText().toString(),textoDNI.getText().toString());
 					map.put(nuevo.getEmail(), nuevo);
 					guardaArchivoUsuarios(map);
 					MenuUI vent=new MenuUI(nuevo,map,listaTransferencias);
@@ -310,23 +311,19 @@ public class RegistroUI implements UserValidationsRegistro,GuardaArchivoUsuarios
 	}
 	
 	@Override
-	public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
-			 try {
-		         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
-				 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json");
-		         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-		         Gson GSON = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (json, type, jsonDeserializationContext) ->
-		         ZonedDateTime.parse(json.getAsJsonPrimitive().getAsString()).toLocalDateTime()).create();
-				 String gsonString = GSON.toJson(map);
-				 out.flush();
-		         out.writeObject(gsonString);
+    public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
+             try {
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"),"UTF-8");                 
+            	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
+				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				 String gsonString = gson.toJson(map);
+				 fileOut.write(gsonString);
 				 fileOut.flush();
-		         out.close();
-		         fileOut.close();
-		      } catch (IOException i) {
-		         i.printStackTrace();
-		     } catch (JsonIOException e){
-				 e.printStackTrace();
-			 }
-	}
+				 fileOut.close();
+              } catch (IOException i) {
+                 i.printStackTrace();
+             } catch (JsonIOException e){
+                 e.printStackTrace();
+             }
+    }
 }

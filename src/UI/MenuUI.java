@@ -15,8 +15,10 @@ import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -307,22 +309,19 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	}
 
 	@Override
-	public void guardaArchivoUsuarios(HashMap<String, Usuario> map) {
-		try {
-			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
-			FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String gsonString = gson.toJson(map);
-			out.writeObject(gsonString);
-			out.close();
-			fileOut.close();
-	      } catch (IOException i) {
-	         i.printStackTrace();
-	     } catch (JsonIOException e){
-			e.printStackTrace();
-		}
-		
-		
-	}
+    public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
+             try {
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"),"UTF-8");                 
+            	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
+				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				 String gsonString = gson.toJson(map);
+				 fileOut.write(gsonString);
+				 fileOut.flush();
+				 fileOut.close();
+              } catch (IOException i) {
+                 i.printStackTrace();
+             } catch (JsonIOException e){
+                 e.printStackTrace();
+             }
+    }
 }

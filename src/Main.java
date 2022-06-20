@@ -20,16 +20,15 @@ public class Main{
 
 
 	public static void main(String[] args) {
-		Usuario user=new Usuario("l","123456","lucas","coluccio","38551218",LocalDateTime.now());
-		Usuario user2=new Usuario("a","123456","lucas","coluccio","38551219",LocalDateTime.now());
-		Usuario user3=new Usuario("c","123456","lucas","coluccio","38551213",LocalDateTime.now());
+		/*Usuario user=new Usuario("l","123456","lucas","coluccio","38551218");
+		Usuario user2=new Usuario("a","123456","lucas","coluccio","38551219");
+		Usuario user3=new Usuario("c","123456","lucas","coluccio","38551213");
 		map.put(user.getEmail(), user);
 		map.put(user2.getEmail(), user2);
-		map.put(user3.getEmail(), user3);
+		map.put(user3.getEmail(), user3);*/
 		//map=cargaHashUsuarios();
 		//lista=cargaListaTransferencias();
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
-			System.out.println("\n");
 			System.out.println(set.getKey() + " = " + set.getValue());
 		}
 		BienvenidaUI nuevaInterfaz=new BienvenidaUI(map,lista);
@@ -38,7 +37,7 @@ public class Main{
 	public static HashMap<String,Usuario> cargaHashUsuarios() {
 		try {
 			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json"));
-			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
+			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"));
             Gson gson = new Gson();
             Type empMapType = new TypeToken< HashMap <String, Usuario>>() {}.getType();
             HashMap<String,Usuario> map= gson.fromJson(fileElement,empMapType);
