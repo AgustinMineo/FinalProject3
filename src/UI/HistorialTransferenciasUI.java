@@ -355,7 +355,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 						System.out.println("Error, usuario ya valido la transferencia");
 					}else{
 
-						if(((Pending) listaTransferencias.get(pos)).getFechaDeInicio().isAfter(LocalDateTime.now().minusMinutes(60))){
+						if(((Pending) listaTransferencias.get(pos)).getFechaDeInicio().isAfter(LocalDateTime.now().minusMinutes(5))){
 	    			((Pending) listaTransferencias.get(pos)).addValidations(user.getEmail());
 	    			guardaArchivoTransferencias(listaTransferencias);
 	    			frame.dispose();
@@ -435,7 +435,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	@Override
     public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
              try {
-            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"),"UTF-8");                 
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\\\FinalProject3\\listaUsuarios.json"),"UTF-8");                 
             	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
 				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				 String gsonString = gson.toJson(map);

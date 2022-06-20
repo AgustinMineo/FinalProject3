@@ -1,47 +1,47 @@
 {
-  "lucascolu@gmail.com": {
-    "email": "lucascolu@gmail.com",
-    "code64": "7e9287e5-35fa-42c1-80cd-afe509766818",
-    "password": "osopanda12",
-    "utnCoins": 0.0,
-    "apellido": "coluccio",
-    "nombre": "lucas",
-    "dni": "38551218"
+  "pruebay2@yahoo.com": {
+    "email": "pruebay2@yahoo.com",
+    "code64": "5ed63bbe-4773-4220-8ff2-79b7c9b6f045",
+    "password": "12345678",
+    "utnCoins": 100.0,
+    "apellido": "PruebaApellido",
+    "nombre": "Prueba",
+    "dni": "39654654"
   },
-  "hola1@gmail.com": {
-    "email": "hola1@gmail.com",
-    "code64": "f2240227-9b13-4b84-8378-1024be3f6076",
-    "password": "osopanda12",
-    "utnCoins": 3.9000000000000057,
-    "apellido": "Ingrese Apellido",
-    "nombre": "Ingrese Nombre",
-    "dni": "3123123122"
-  },
-  "lucas3@gmail.com": {
-    "email": "lucas3@gmail.com",
-    "code64": "f939b283-700a-41f4-8d45-8aa33805dc80",
-    "password": "osopanda12",
-    "utnCoins": 60.0,
+  "lucasdcolu@gmail.com": {
+    "email": "lucasdcolu@gmail.com",
+    "code64": "782ea131-4fb4-4866-ac82-2aafb5096911",
+    "password": "12345678",
+    "utnCoins": 100.0,
     "apellido": "Coluccio",
     "nombre": "Lucas",
-    "dni": "38551216"
+    "dni": "38551218"
   },
-  "lucas2@gmail.com": {
-    "email": "lucas2@gmail.com",
-    "code64": "8291b271-4801-4559-9f2c-e3d7ab71bf09",
-    "password": "osopanda12",
-    "utnCoins": 9.0,
-    "apellido": "coluccio",
-    "nombre": "lucas",
-    "dni": "38551219"
+  "agusmineo@hotmail.com": {
+    "email": "agusmineo@hotmail.com",
+    "code64": "733900e9-1a01-42ff-8aa2-ab7bc10a8dcc",
+    "password": "12345678",
+    "utnCoins": 100.0,
+    "apellido": "Mineo",
+    "nombre": "Agustin",
+    "dni": "41715343"
   },
-  "aa@gmail.com": {
-    "email": "aa@gmail.com",
-    "code64": "69dda674-36db-46d1-9823-ea83401595dc",
-    "password": "osopanda12",
-    "utnCoins": 0.0,
-    "apellido": "Ingrese Apellido",
-    "nombre": "Ingrese Nombre",
-    "dni": "312312312"
+  "prueba1@outlook.com": {
+    "email": "prueba1@outlook.com",
+    "code64": "c148cc74-9edd-48f6-bc13-5cf9b78743f8",
+    "password": "12345678",
+    "utnCoins": 79.0,
+    "apellido": "Test",
+    "nombre": "Prueba",
+    "dni": "38555123"
+  },
+  "pruebax3@outlook.com": {
+    "email": "pruebax3@outlook.com",
+    "code64": "7e5436f4-8d44-4636-b4a8-606f00f80c39",
+    "password": "12345678",
+    "utnCoins": 100.0,
+    "apellido": "PruebaTest",
+    "nombre": "Prueba",
+    "dni": "385555545"
   }
 }

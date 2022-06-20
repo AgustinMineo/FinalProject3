@@ -19,7 +19,9 @@ public class Main{
 
 	public static void main(String[] args) {
 
+		
 		map=cargaHashUsuarios();
+		
 		lista=cargaListaTransferencias();
 		
 		//Muestro usuarios precargados
