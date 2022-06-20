@@ -5,7 +5,7 @@ import Enums.TransferCause;
 import java.time.LocalDateTime;
 
 public final class Rechazada extends Transferencia{
-    Enum<RejectCause> cause;
+    public Enum<RejectCause> cause;
     private Pending pendingReject;
     private LocalDateTime rejectTime;
 

@@ -293,16 +293,21 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
 		try {
-	         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
-			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
-	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	         out.writeObject(listaTransferencias);
-	         out.close();
-	         fileOut.close();
+			
+			
+			
+			Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaTransferencias.json"),"UTF-8");                 
+       	 	//Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
+			 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			 String gsonString = gson.toJson(listaTransferencias);
+			 fileOut.write(gsonString);
+			 fileOut.flush();
+			 fileOut.close();
 	      } catch (IOException i) {
 	         i.printStackTrace();
-	     }
-		
+	      } catch (JsonIOException e){
+              e.printStackTrace();
+          }
 	}
 
 	@Override

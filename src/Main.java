@@ -26,7 +26,7 @@ public class Main{
 		map.put(user.getEmail(), user);
 		map.put(user2.getEmail(), user2);
 		map.put(user3.getEmail(), user3);*/
-		//map=cargaHashUsuarios();
+		map=cargaHashUsuarios();
 		//lista=cargaListaTransferencias();
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
 			System.out.println(set.getKey() + " = " + set.getValue());
