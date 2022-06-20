@@ -39,7 +39,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
@@ -433,23 +435,21 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	}
 
 	@Override
-	public void guardaArchivoUsuarios(HashMap<String, Usuario> map) {
-
-		try {
-			FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
-			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String gsonString = gson.toJson(map);
-			out.writeObject(gsonString);
-			out.close();
-			fileOut.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-		} catch (JsonIOException e){
-			e.printStackTrace();
-		}
-	}
+    public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
+             try {
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"),"UTF-8");                 
+            	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
+				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				 String gsonString = gson.toJson(map);
+				 fileOut.write(gsonString);
+				 fileOut.flush();
+				 fileOut.close();
+              } catch (IOException i) {
+                 i.printStackTrace();
+             } catch (JsonIOException e){
+                 e.printStackTrace();
+             }
+    }
 
 	@Override
 	public void exportacionTxRealizadas(String path,List<Transferencia> listaTransferencias,String codEmisor) throws IOException {
