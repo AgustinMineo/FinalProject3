@@ -18,16 +18,11 @@ public class Main{
 	public static List<Transferencia> lista=new ArrayList<>();
 
 	public static void main(String[] args) {
-		try {
-			map=cargaHashUsuarios();
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			lista=cargaListaTransferencias();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+
+		map=cargaHashUsuarios();
+
+		lista=cargaListaTransferencias();
+		
 		//Muestro usuarios precargados
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
 			System.out.println(set.getKey() + " = " + set.getValue());
@@ -35,7 +30,7 @@ public class Main{
 		BienvenidaUI nuevaInterfaz=new BienvenidaUI(map,lista);
 		nuevaInterfaz.setVisible(true);
 	}
-	public static HashMap<String,Usuario> cargaHashUsuarios() throws FileNotFoundException{
+	public static HashMap<String,Usuario> cargaHashUsuarios(){
 		try {
 			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json"));
 			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
@@ -51,7 +46,7 @@ public class Main{
 			return null;
 	      }
 	}
-	public static List<Transferencia> cargaListaTransferencias() throws FileNotFoundException{
+	public static List<Transferencia> cargaListaTransferencias(){
 		try {
 	         //FileInputStream fileIn = new FileInputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
 			 FileInputStream fileIn = new FileInputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
