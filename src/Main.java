@@ -22,7 +22,7 @@ public class Main{
 		
 		map=cargaHashUsuarios();
 		
-		lista=cargaListaTransferencias();
+		//lista=cargaListaTransferencias();
 		
 		//Muestro usuarios precargados
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
