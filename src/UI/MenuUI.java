@@ -89,9 +89,10 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 			}
 		});
 		
-		JMenuItem verTransf=new JMenuItem("Ver Historial Transacciones");
+		JMenuItem verTransf=new JMenuItem("Ver Historial Transferencias");
 		verTransf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unused")
 				HistorialTransferenciasUI vent=new HistorialTransferenciasUI(user,map,listaTransferencias);
 				frame.dispose();
 			}
