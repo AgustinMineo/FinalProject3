@@ -1,7 +1,5 @@
 package UI;
 
-import java.awt.EventQueue;
-
 import javax.swing.*;
 
 import Interface.GuardaArchivoTransferencias;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.awt.event.ActionEvent;
-import java.io.Serializable;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -296,16 +293,17 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
 		try {
-	         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
-			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaTransferencias.ser");
+			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
+			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(listaTransferencias);
 	         out.close();
 	         fileOut.close();
 	      } catch (IOException i) {
 	         i.printStackTrace();
-	     }
-		
+	      } catch (JsonIOException e){
+              e.printStackTrace();
+          }
 	}
 
 	@Override
