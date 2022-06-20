@@ -206,8 +206,6 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 		labelCausa.setBounds(33, 235, 278, 13);
 		frame.getContentPane().add(labelCausa);
 
-		//spinnerMonto = new JSpinner();
-		//new JSpinner(new SpinnerNumberModel(0,0,user.getUtnCoins()));
 		SpinnerModel value = new SpinnerNumberModel(0,0, user.getUtnCoins(),0.01);
 		spinnerMonto = new JSpinner(value);
 
