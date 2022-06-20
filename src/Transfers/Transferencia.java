@@ -36,4 +36,9 @@ public abstract class Transferencia implements Serializable{
     public String getCodeIDTransfer() {return codeIDTransfer.toString();}
 
     public void setCodeIDTransfer(UUID codeIDTransfer) {this.codeIDTransfer = codeIDTransfer;}
+    
+    @Override
+    public String toString() {
+    	return nodo.getCodeUserSend()+"\t"+nodo.getCodeUserReceptor()+"\t"+nodo.getCoin().getAmountCoin()+"\t"+this.getSendCause();
+    }
 }
