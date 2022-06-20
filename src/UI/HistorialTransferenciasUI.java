@@ -416,7 +416,6 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 		}
 		return key;
 	}
-	/// Migrar a transferValidations
 
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
