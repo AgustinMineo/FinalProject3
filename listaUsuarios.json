@@ -1,0 +1,38 @@
+{
+  "lucascolu@gmail.com": {
+    "email": "lucascolu@gmail.com",
+    "code64": "7e9287e5-35fa-42c1-80cd-afe509766818",
+    "password": "osopanda12",
+    "utnCoins": 7.099999999999994,
+    "apellido": "coluccio",
+    "nombre": "lucas",
+    "dni": "38551218"
+  },
+  "lucas3@gmail.com": {
+    "email": "lucas3@gmail.com",
+    "code64": "f939b283-700a-41f4-8d45-8aa33805dc80",
+    "password": "osopanda12",
+    "utnCoins": 60.0,
+    "apellido": "Coluccio",
+    "nombre": "Lucas",
+    "dni": "38551216"
+  },
+  "lucas2@gmail.com": {
+    "email": "lucas2@gmail.com",
+    "code64": "8291b271-4801-4559-9f2c-e3d7ab71bf09",
+    "password": "osopanda12",
+    "utnCoins": 100.0,
+    "apellido": "coluccio",
+    "nombre": "lucas",
+    "dni": "38551219"
+  },
+  "aa@gmail.com": {
+    "email": "aa@gmail.com",
+    "code64": "69dda674-36db-46d1-9823-ea83401595dc",
+    "password": "osopanda12",
+    "utnCoins": 100.0,
+    "apellido": "Ingrese Apellido",
+    "nombre": "Ingrese Nombre",
+    "dni": "312312312"
+  }
+}

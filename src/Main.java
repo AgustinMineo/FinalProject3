@@ -37,7 +37,7 @@ public class Main{
 	public static HashMap<String,Usuario> cargaHashUsuarios() {
 		try {
 			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json"));
-			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"));
+			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
             Gson gson = new Gson();
             Type empMapType = new TypeToken< HashMap <String, Usuario>>() {}.getType();
             HashMap<String,Usuario> map= gson.fromJson(fileElement,empMapType);
