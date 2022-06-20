@@ -21,16 +21,18 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.UUID;
+import javax.swing.JPasswordField;
 
 public class LoginUI implements UserValidationsLogin {
 
 	private JFrame frame;
 	private JTextField textoEmail;
 	private JTextField textoWallet;
-	private JTextField textoPassword;
 	private JLabel labelErrorEmail;
 	private JLabel labelErrorwalletOpw;
 	private JButton botonRegistro;
+	private JLabel labelIngresePassword = new JLabel("Ingrese password");
+	private JPasswordField passwordBox;
 
 	public LoginUI(HashMap<String,Usuario>map,List<Transferencia> listaTransferencias) {
 		initialize(map,listaTransferencias);
@@ -54,7 +56,8 @@ public class LoginUI implements UserValidationsLogin {
 		botonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario user=validaEmail(map,textoEmail.getText().toString());
-				if(validaPassword(user,textoPassword.getText().toString()) && validaWallet(user,textoWallet.getText().toString())){
+				System.out.println(passwordBox.getPassword());
+				if(validaPassword(user,passwordBox.getText()) && validaWallet(user,textoWallet.getText().toString())){
 					MenuUI ventana=new MenuUI(user,map,listaTransferencias);
 					frame.dispose();
 				}else{
@@ -72,10 +75,11 @@ public class LoginUI implements UserValidationsLogin {
 				if (validaEmail(map,textoEmail.getText().toString())!=null) {
 					textoEmail.setEnabled(false);
 					textoWallet.setVisible(true);
-					textoPassword.setVisible(true);
+					passwordBox.setVisible(true);
 					labelErrorEmail.setVisible(false);
 					botonLogin.setVisible(true);
 					botonVerificaEmail.setVisible(false);
+					labelIngresePassword.setVisible(true);
 				}
 				else
 					labelErrorEmail.setVisible(true);
@@ -90,13 +94,6 @@ public class LoginUI implements UserValidationsLogin {
 		textoWallet.setBounds(135, 55, 280, 19);
 		frame.getContentPane().add(textoWallet);
 		textoWallet.setVisible(false);
-		
-		textoPassword = new JTextField();
-		textoPassword.setText("Ingrese Password");
-		textoPassword.setColumns(10);
-		textoPassword.setBounds(135, 86, 123, 19);
-		frame.getContentPane().add(textoPassword);
-		textoPassword.setVisible(false);
 		
 		labelErrorEmail = new JLabel("Email ingresado no existe.");
 		labelErrorEmail.setForeground(Color.RED);
@@ -120,6 +117,14 @@ public class LoginUI implements UserValidationsLogin {
 		botonRegistro.setBounds(459, 196, 144, 21);
 		frame.getContentPane().add(botonRegistro);
 		
+		passwordBox = new JPasswordField();
+		passwordBox.setBounds(135, 98, 123, 19);
+		frame.getContentPane().add(passwordBox);
+		passwordBox.setVisible(false);
+		
+		labelIngresePassword.setBounds(135, 85, 126, 13);
+		frame.getContentPane().add(labelIngresePassword);
+		labelIngresePassword.setVisible(false);
 		labelErrorwalletOpw.setVisible(false);
 		labelErrorEmail.setVisible(false);
 	}

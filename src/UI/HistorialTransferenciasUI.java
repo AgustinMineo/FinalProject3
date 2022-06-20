@@ -458,7 +458,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 		   archivo = new File(path);
 		else
 			archivo= new File(path+".txt");
-		   archivo.createNewFile();
+		    archivo.createNewFile();
 
 		try {
 			FileWriter writer = new FileWriter(archivo);
@@ -467,7 +467,13 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 			writer.write(System.getProperty( "line.separator" ));
 			for (Transferencia i:listaTransferencias) {
 				if (i.getNodo().getCodeUserSend().equals(codEmisor)) {
-					writer.write(i.toString()+i.getClass().toGenericString());
+					if (i instanceof Pending) 
+						estado="Pendiente";
+					else if (i instanceof Finalizada)
+						estado="Finalizada";
+					else if (i instanceof Rechazada)
+						estado="Rechazada";
+					writer.write(i.toString()+"\t"+i.getFechaDeInicio()+"\t"+estado);
 					writer.write(System.getProperty( "line.separator" ));
 				}
 			}
