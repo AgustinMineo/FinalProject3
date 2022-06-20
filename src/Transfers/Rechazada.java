@@ -2,11 +2,9 @@ package Transfers;
 
 import Enums.RejectCause;
 import Enums.TransferCause;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public final class Rechazada extends Transferencia implements Serializable{
+public final class Rechazada extends Transferencia{
     Enum<RejectCause> cause;
     private Pending pendingReject;
     private LocalDateTime rejectTime;

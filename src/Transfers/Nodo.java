@@ -3,13 +3,9 @@ package Transfers;
 import Coins.UtnCoin;
 import Usuarios.Usuario;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-public class Nodo implements Serializable{
+public class Nodo {
     private String codeUserSend;
     private String codeUserReceptor;
-    //private Object coin;  Implementar multiples coins
     private UtnCoin coin;
     private int status;
 
@@ -19,7 +15,6 @@ public class Nodo implements Serializable{
         this.coin = coin;
         this.status=1;
     }
-
     public int getStatus() {return status;}
 
     public void setStatus(int status) {this.status = status;}

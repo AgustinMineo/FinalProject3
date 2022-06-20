@@ -1,7 +1,5 @@
 package UI;
 
-import java.awt.EventQueue;
-
 import javax.swing.*;
 
 import Interface.GuardaArchivoTransferencias;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.awt.event.ActionEvent;
-import java.io.Serializable;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
