@@ -12,7 +12,7 @@
     "email": "lucasdcolu@gmail.com",
     "code64": "782ea131-4fb4-4866-ac82-2aafb5096911",
     "password": "12345678",
-    "utnCoins": 100.0,
+    "utnCoins": 111.0,
     "apellido": "Coluccio",
     "nombre": "Lucas",
     "dni": "38551218"
@@ -21,7 +21,7 @@
     "email": "agusmineo@hotmail.com",
     "code64": "733900e9-1a01-42ff-8aa2-ab7bc10a8dcc",
     "password": "12345678",
-    "utnCoins": 100.0,
+    "utnCoins": 106.03,
     "apellido": "Mineo",
     "nombre": "Agustin",
     "dni": "41715343"
@@ -30,7 +30,7 @@
     "email": "prueba1@outlook.com",
     "code64": "c148cc74-9edd-48f6-bc13-5cf9b78743f8",
     "password": "12345678",
-    "utnCoins": 67.0,
+    "utnCoins": 54.75,
     "apellido": "Test",
     "nombre": "Prueba",
     "dni": "38555123"
@@ -39,7 +39,7 @@
     "email": "pruebax3@outlook.com",
     "code64": "7e5436f4-8d44-4636-b4a8-606f00f80c39",
     "password": "12345678",
-    "utnCoins": 88.0,
+    "utnCoins": 22.799999999999997,
     "apellido": "PruebaTest",
     "nombre": "Prueba",
     "dni": "385555545"
