@@ -14,27 +14,27 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 public class Main{
-
 	public static HashMap<String,Usuario> map=new HashMap<String,Usuario>();
 	public static List<Transferencia> lista=new ArrayList<>();
 
-
 	public static void main(String[] args) {
-		/*Usuario user=new Usuario("l","123456","lucas","coluccio","38551218");
-		Usuario user2=new Usuario("a","123456","lucas","coluccio","38551219");
-		Usuario user3=new Usuario("c","123456","lucas","coluccio","38551213");
-		map.put(user.getEmail(), user);
-		map.put(user2.getEmail(), user2);
-		map.put(user3.getEmail(), user3);*/
-		map=cargaHashUsuarios();
-		lista=cargaListaTransferencias();
+		try {
+			map=cargaHashUsuarios();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			lista=cargaListaTransferencias();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
 			System.out.println(set.getKey() + " = " + set.getValue());
 		}
 		BienvenidaUI nuevaInterfaz=new BienvenidaUI(map,lista);
 		nuevaInterfaz.setVisible(true);
 	}
-	public static HashMap<String,Usuario> cargaHashUsuarios() {
+	public static HashMap<String,Usuario> cargaHashUsuarios() throws FileNotFoundException{
 		try {
 			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json"));
 			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
@@ -50,7 +50,7 @@ public class Main{
 			return null;
 	      }
 	}
-	public static List<Transferencia> cargaListaTransferencias() {
+	public static List<Transferencia> cargaListaTransferencias() throws FileNotFoundException{
 		try {
 	         //FileInputStream fileIn = new FileInputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
 			 FileInputStream fileIn = new FileInputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
