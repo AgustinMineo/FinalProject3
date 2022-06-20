@@ -23,6 +23,8 @@ public class ErrorWalletUI extends JDialog {
 	private JLabel labelErrorSinSeleccionTransf = new JLabel("Error: No selecciono ninguna transferencia para validar");
 	private JLabel labelExportacionOK = new JLabel("Se ha realizado la exportacion correctamente.");
 	private JLabel labelErrorExportacion = new JLabel("No se ha podido realizar la exportacion.");
+	private JLabel labelTransf0 = new JLabel("Error: No es posible transferir 0 coins");
+	private JLabel labelErrorSaldoInsuficiente = new JLabel("Error: Saldo insuficiente");
 	
 	public ErrorWalletUI(int i) {
 		setTitle("ERROR");
@@ -55,11 +57,13 @@ public class ErrorWalletUI extends JDialog {
 			labelWalletIngresadaNoExiste.setVisible(false);
 			labelErrorSiMismo.setVisible(true);
 			labelTransfOK.setVisible(false);
+			labelErrorSaldoInsuficiente.setVisible(false);
 			labelValidacionOK.setVisible(false);
 			labelCambiosGuardadosOK.setVisible(false);
 			labelErrorSinSeleccionTransf.setVisible(false);
 			labelExportacionOK.setVisible(false);
 			labelErrorExportacion.setVisible(false);
+			labelTransf0.setVisible(false);
 		}
 		else
 			if (i==1) {
@@ -71,11 +75,14 @@ public class ErrorWalletUI extends JDialog {
 				labelError.setVisible(true);
 				labelErrorSinSeleccionTransf.setVisible(false);
 				labelExportacionOK.setVisible(false);
+				labelErrorSaldoInsuficiente.setVisible(false);
 				labelErrorExportacion.setVisible(false);
+				labelTransf0.setVisible(false);
 			}
 			else
 				if (i==2) {
 					labelError.setVisible(false);
+					labelErrorSaldoInsuficiente.setVisible(false);
 					labelWalletIngresadaNoExiste.setVisible(false);
 					labelErrorSiMismo.setVisible(false);
 					labelCambiosGuardadosOK.setVisible(false);
@@ -84,6 +91,7 @@ public class ErrorWalletUI extends JDialog {
 					labelErrorSinSeleccionTransf.setVisible(false);
 					labelExportacionOK.setVisible(false);
 					labelErrorExportacion.setVisible(false);
+					labelTransf0.setVisible(false);
 				}
 				else
 					if (i==3) {
@@ -91,11 +99,13 @@ public class ErrorWalletUI extends JDialog {
 						labelWalletIngresadaNoExiste.setVisible(false);
 						labelErrorSiMismo.setVisible(false);
 						labelTransfOK.setVisible(false);
+						labelTransf0.setVisible(false);
 						labelValidacionOK.setVisible(false);
 						labelCambiosGuardadosOK.setVisible(true);
 						labelExportacionOK.setVisible(false);
 						labelErrorSinSeleccionTransf.setVisible(false);
 						labelErrorExportacion.setVisible(false);
+						labelErrorSaldoInsuficiente.setVisible(false);
 						
 					}
 					else
@@ -104,16 +114,19 @@ public class ErrorWalletUI extends JDialog {
 							labelWalletIngresadaNoExiste.setVisible(false);
 							labelErrorSiMismo.setVisible(false);
 							labelTransfOK.setVisible(false);
+							labelTransf0.setVisible(false);
 							labelCambiosGuardadosOK.setVisible(false);
 							labelValidacionOK.setVisible(true);
 							labelErrorSinSeleccionTransf.setVisible(false);
 							labelExportacionOK.setVisible(false);
 							labelErrorExportacion.setVisible(false);
+							labelErrorSaldoInsuficiente.setVisible(false);
 						}
 						else
 							if (i==5) {
 								labelErrorSinSeleccionTransf.setVisible(true);
 								labelError.setVisible(false);
+								labelTransf0.setVisible(false);
 								labelWalletIngresadaNoExiste.setVisible(false);
 								labelErrorSiMismo.setVisible(false);
 								labelTransfOK.setVisible(false);
@@ -121,6 +134,7 @@ public class ErrorWalletUI extends JDialog {
 								labelValidacionOK.setVisible(false);
 								labelExportacionOK.setVisible(false);
 								labelErrorExportacion.setVisible(false);
+								labelErrorSaldoInsuficiente.setVisible(false);
 							}
 							else
 								if (i==6) {
@@ -129,10 +143,12 @@ public class ErrorWalletUI extends JDialog {
 									labelWalletIngresadaNoExiste.setVisible(false);
 									labelErrorSiMismo.setVisible(false);
 									labelTransfOK.setVisible(false);
+									labelTransf0.setVisible(false);
 									labelCambiosGuardadosOK.setVisible(false);
 									labelValidacionOK.setVisible(false);
 									labelExportacionOK.setVisible(true);
 									labelErrorExportacion.setVisible(false);
+									labelErrorSaldoInsuficiente.setVisible(false);
 								}
 								else
 									if (i==7) {
@@ -140,11 +156,39 @@ public class ErrorWalletUI extends JDialog {
 										labelError.setVisible(false);
 										labelWalletIngresadaNoExiste.setVisible(false);
 										labelErrorSiMismo.setVisible(false);
+										labelTransf0.setVisible(false);
 										labelTransfOK.setVisible(false);
 										labelCambiosGuardadosOK.setVisible(false);
 										labelValidacionOK.setVisible(false);
 										labelExportacionOK.setVisible(false);
 										labelErrorExportacion.setVisible(true);
+										labelErrorSaldoInsuficiente.setVisible(false);
+									}
+									else if (i==8) {
+										labelErrorSinSeleccionTransf.setVisible(false);
+										labelError.setVisible(false);
+										labelWalletIngresadaNoExiste.setVisible(false);
+										labelErrorSiMismo.setVisible(false);
+										labelTransfOK.setVisible(false);
+										labelCambiosGuardadosOK.setVisible(false);
+										labelValidacionOK.setVisible(false);
+										labelTransf0.setVisible(true);
+										labelExportacionOK.setVisible(false);
+										labelErrorExportacion.setVisible(false);
+										labelErrorSaldoInsuficiente.setVisible(false);
+									}
+									else if (i==9) {
+										labelErrorSinSeleccionTransf.setVisible(false);
+										labelError.setVisible(false);
+										labelWalletIngresadaNoExiste.setVisible(false);
+										labelErrorSiMismo.setVisible(false);
+										labelTransfOK.setVisible(false);
+										labelCambiosGuardadosOK.setVisible(false);
+										labelValidacionOK.setVisible(false);
+										labelTransf0.setVisible(false);
+										labelExportacionOK.setVisible(false);
+										labelErrorSaldoInsuficiente.setVisible(true);
+										labelErrorExportacion.setVisible(false);
 									}
 			
 		
@@ -169,9 +213,11 @@ public class ErrorWalletUI extends JDialog {
 		contentPanel.add(labelErrorExportacion);
 		
 		
+		labelTransf0.setBounds(21, 52, 289, 13);
+		contentPanel.add(labelTransf0);
+		labelErrorSaldoInsuficiente.setBounds(21, 44, 246, 13);
 		
-		
-		
-		
+		contentPanel.add(labelErrorSaldoInsuficiente);
+
 	}
 }

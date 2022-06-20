@@ -175,6 +175,11 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 						if (!validateWallet(user.getCode64(), textoReceptor.getText().toString()))
 							throw new Exception ();
 						else {
+							if ((double)spinnerMonto.getValue()==0) {
+								ErrorWalletUI error=new ErrorWalletUI(8);
+								error.setVisible(true);
+							}
+							else {
 							try {
 								if(!validaCode64(textoReceptor.getText().toString(),map))
 									throw  new Exception();
@@ -192,11 +197,17 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 								ErrorWalletUI error=new ErrorWalletUI(1);
 								error.setVisible(true);
 							}
+							}
 						}
 					}catch (Exception e1){
 						ErrorWalletUI error=new ErrorWalletUI(0);
 						error.setVisible(true);
 					}
+				}
+				else
+				{
+					ErrorWalletUI error=new ErrorWalletUI(9);
+					error.setVisible(true);
 				}
 			}
 		});
