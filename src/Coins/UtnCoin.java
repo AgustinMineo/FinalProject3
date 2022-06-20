@@ -1,8 +1,7 @@
 package Coins;
 
-import java.io.Serializable;
 
-public class UtnCoin extends Coin implements Serializable{
+public class UtnCoin extends Coin{
     public UtnCoin(String nameCoin, double amountCoin) {
         super(nameCoin, amountCoin);
     }

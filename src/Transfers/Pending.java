@@ -1,12 +1,9 @@
 package Transfers;
 
 import Enums.TransferCause;
-import Interface.TransferValidations;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Pending extends Transferencia implements Serializable{
+public class Pending extends Transferencia{
     private int validations;
     private String []userKeys;
 
