@@ -11,9 +11,11 @@ import java.util.Map.Entry;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import Enums.RejectCause;
+import Interface.Exportations;
 import Interface.GuardaArchivoTransferencias;
 import Interface.GuardaArchivoUsuarios;
 import Transfers.Finalizada;
@@ -27,17 +29,30 @@ import com.google.gson.JsonIOException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import java.awt.Font;
 
-public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,GuardaArchivoUsuarios{
+public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,GuardaArchivoUsuarios,Exportations{
 
 	private JFrame frame;
 	private JRadioButton radioTransferenciasRecibidas = new JRadioButton("Transferencias Recibidas");
@@ -57,10 +72,78 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	private void initialize(Usuario user,HashMap<String,Usuario> map,List<Transferencia>listaTransferencias) {
 		frame = new JFrame();
 		frame.setTitle("Historial de transacciones de "+user.getCode64());
-		frame.setBounds(75, 275, 1201, 480);
+		frame.setBounds(125, 225, 1201, 552);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 1187, 27);
+		frame.getContentPane().add(menuBar);
+		JMenu preferencias=new JMenu("Preferencias");
+		JMenuItem cerrarSesion=new JMenuItem("Cerrar Sesion");
+		cerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BienvenidaUI vent=new BienvenidaUI(map,listaTransferencias);
+				vent.setVisible(true);
+				frame.dispose();
+			}
+		});
+		JMenuItem salir=new JMenuItem("Salir");
+		salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		
+		JMenu exportaciones=new JMenu("Exportar");
+		JMenuItem exportarTxRealizadas=new JMenuItem("Exportar transferencias Realizadas");
+		exportarTxRealizadas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Elegir donde guardar");   
+				int userSelection = fileChooser.showSaveDialog(frame);
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+				    File fileToSave = fileChooser.getSelectedFile();
+				    String path=fileToSave.getAbsolutePath();
+				    try {
+						exportacionTxRealizadas(path,listaTransferencias,user.getCode64().toString());
+						ErrorWalletUI error = new ErrorWalletUI(6);
+		    			error.setVisible(true);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						ErrorWalletUI error = new ErrorWalletUI(7);
+		    			error.setVisible(true);
+					}
+				}
+			}
+		});
+		JMenuItem exportarTxRecibidas=new JMenuItem("Exportar transferencias Recibidas");
+		exportarTxRecibidas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Elegir donde guardar");   
+				int userSelection = fileChooser.showSaveDialog(frame);
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+				    File fileToSave = fileChooser.getSelectedFile();
+				    String path=fileToSave.getAbsolutePath();
+				    try {
+						exportacionTxRecibidas(path,listaTransferencias,user.getCode64().toString());
+						ErrorWalletUI error = new ErrorWalletUI(6);
+		    			error.setVisible(true);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						ErrorWalletUI error = new ErrorWalletUI(7);
+		    			error.setVisible(true);
+					}
+				}
+			}
+		});
+		
+		menuBar.add(preferencias);
+		preferencias.add(cerrarSesion);
+		preferencias.add(salir);
+		menuBar.add(exportaciones);
+		exportaciones.add(exportarTxRealizadas);
+		exportaciones.add(exportarTxRecibidas);
 		//Codigo Transferencias Realizadas
 		String[] columnNames = {"ID TRANSFERENCIA","FECHA DE TRANSFERENCIA","WALLET RECEPTOR","MONTO","CAUSA ENVIO","ESTADO","PROGRESO/CAUSA RECHAZO"};
 	    DefaultTableModel model = new DefaultTableModel(null, columnNames);
@@ -70,7 +153,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    table.setFillsViewportHeight(true);
 	    JScrollPane scrollPane = new JScrollPane(table);
 	    frame.getContentPane().add(scrollPane);
-	    scrollPane.setBounds(20, 46, 1123,324 ); 
+	    scrollPane.setBounds(20, 85, 1123,324 ); 
 	    
 	    if (listaTransferencias.size()>0)
 	    	for (Transferencia i: listaTransferencias) {
@@ -118,7 +201,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    table2.setFillsViewportHeight(true);
 	    JScrollPane scrollPane2 = new JScrollPane(table2);
 	    frame.getContentPane().add(scrollPane2);
-	    scrollPane2.setBounds(20, 46, 1123,324 ); 
+	    scrollPane2.setBounds(20, 85, 1123,324 ); 
 	    if (listaTransferencias.size()>0)
 	    	for (Transferencia i: listaTransferencias) {
 	    		if (i instanceof Pending) {
@@ -165,7 +248,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    table3.setFillsViewportHeight(true);
 	    JScrollPane scrollPane3 = new JScrollPane(table3);
 	    frame.getContentPane().add(scrollPane3);
-	    scrollPane3.setBounds(20, 46, 1123,324 ); 
+	    scrollPane3.setBounds(20, 85, 1123,324 ); 
 	    if (listaTransferencias.size()>0)
 	    	for (Transferencia i: listaTransferencias) {
 	    		if (i instanceof Pending) {
@@ -201,7 +284,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    		MenuUI vent=new MenuUI(user,map,listaTransferencias);
 	    	}
 	    });
-	    botonVolver.setBounds(1047, 395, 85, 21);
+	    botonVolver.setBounds(1047, 442, 85, 21);
 	    frame.getContentPane().add(botonVolver);
 	    radioTransferenciasRecibidas.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -217,7 +300,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    });
 	    
 	    
-	    radioTransferenciasRecibidas.setBounds(401, 6, 211, 21);
+	    radioTransferenciasRecibidas.setBounds(403, 44, 211, 21);
 	    frame.getContentPane().add(radioTransferenciasRecibidas);
 	    radioTransfrenciasRealizadas.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -232,7 +315,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    	}
 	    });
 
-	    radioTransfrenciasRealizadas.setBounds(133, 6, 232, 21);
+	    radioTransfrenciasRealizadas.setBounds(135, 44, 232, 21);
 	    frame.getContentPane().add(radioTransfrenciasRealizadas);
 	    radioValidarTransacciones.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
@@ -248,11 +331,11 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    });
 	    
 	    
-	    radioValidarTransacciones.setBounds(655, 6, 275, 21);
+	    radioValidarTransacciones.setBounds(657, 44, 275, 21);
 	    frame.getContentPane().add(radioValidarTransacciones);
 	    
 	    labelSeleccioneTransferenciaParaValidar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-	    labelSeleccioneTransferenciaParaValidar.setBounds(323, 398, 404, 13);
+	    labelSeleccioneTransferenciaParaValidar.setBounds(323, 445, 404, 13);
 	    frame.getContentPane().add(labelSeleccioneTransferenciaParaValidar);
 	    labelSeleccioneTransferenciaParaValidar.setVisible(false);
 	    
@@ -308,7 +391,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	    		
 	    	}
 	    });
-	    botonValidar.setBounds(670, 395, 199, 21);
+	    botonValidar.setBounds(670, 442, 199, 21);
 	    frame.getContentPane().add(botonValidar);
 	}
 	
@@ -335,7 +418,6 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 		}
 		return key;
 	}
-	/// Migrar a transferValidations
 
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
@@ -353,21 +435,78 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	}
 
 	@Override
-	public void guardaArchivoUsuarios(HashMap<String, Usuario> map) {
+    public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
+             try {
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\listaUsuarios.json"),"UTF-8");                 
+            	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
+				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				 String gsonString = gson.toJson(map);
+				 fileOut.write(gsonString);
+				 fileOut.flush();
+				 fileOut.close();
+              } catch (IOException i) {
+                 i.printStackTrace();
+             } catch (JsonIOException e){
+                 e.printStackTrace();
+             }
+    }
+
+	@Override
+	public void exportacionTxRealizadas(String path,List<Transferencia> listaTransferencias,String codEmisor) throws IOException {
+		int i=0;
+		File archivo;
+		//Consulto si el usuario digito .txt, ya que sino, agrego la extension.
+		if (path.contains(".txt"))
+		   archivo = new File(path);
+		else
+			archivo= new File(path+".txt");
+		   archivo.createNewFile();
 
 		try {
-			FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json");
-			//FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\TP FINAL\\listaUsuarios.ser");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String gsonString = gson.toJson(map);
-			out.writeObject(gsonString);
-			out.close();
-			fileOut.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-		} catch (JsonIOException e){
+			FileWriter writer = new FileWriter(archivo);
+			//Hearders de exportacion
+			writer.write("Emisor \t Receptor \t Cantidad \t Causa Envio \t Fecha Y Hora");
+			writer.write(System.getProperty( "line.separator" ));
+			while (listaTransferencias.size()>i) {
+				if (listaTransferencias.get(i).getNodo().getCodeUserSend().equals(codEmisor)) {
+					writer.write(listaTransferencias.get(i).toString());
+					writer.write(System.getProperty( "line.separator" ));
+				}
+					i++;
+			}
+			writer.close();	   
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+	   }
+
+	@Override
+	public void exportacionTxRecibidas(String path, List<Transferencia> listaTransferencias, String codReceptor)throws IOException {
+		int i=0;
+		File archivo;
+		//Consulto si el usuario digito .txt, ya que sino, agrego la extension.
+		if (path.contains(".txt"))
+		   archivo = new File(path);
+		else
+			archivo= new File(path+".txt");
+		   archivo.createNewFile();
+
+		try {
+			FileWriter writer = new FileWriter(archivo);
+			//Hearders de exportacion
+			writer.write("Emisor \t Receptor \t Cantidad \t Causa Envio \t Fecha Y Hora");
+			writer.write(System.getProperty( "line.separator" ));
+			while (listaTransferencias.size()>i) {
+				if (listaTransferencias.get(i).getNodo().getCodeUserReceptor().equals(codReceptor)) {
+					writer.write(listaTransferencias.get(i).toString());
+					writer.write(System.getProperty( "line.separator" ));
+				}
+					i++;
+			}
+			writer.close();	   
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
