@@ -30,5 +30,8 @@ public final class Rechazada extends Transferencia implements Serializable{
 
     public void setRejectTime(LocalDateTime rejectTime) {this.rejectTime = rejectTime;}
 
-
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

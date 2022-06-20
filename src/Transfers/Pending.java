@@ -27,7 +27,6 @@ public class Pending extends Transferencia implements Serializable{
         userKeys[this.validations]=emailUser;
         this.validations++;
     }
-    /// Mejorar el metodo
     public boolean validateUserKeys(String email){
         int i=0;
         while (i<this.validations){
