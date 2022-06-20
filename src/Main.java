@@ -20,6 +20,12 @@ public class Main{
 
 
 	public static void main(String[] args) {
+		Usuario user=new Usuario("l","123456","lucas","coluccio","38551218",LocalDateTime.now());
+		Usuario user2=new Usuario("a","123456","lucas","coluccio","38551219",LocalDateTime.now());
+		Usuario user3=new Usuario("c","123456","lucas","coluccio","38551213",LocalDateTime.now());
+		map.put(user.getEmail(), user);
+		map.put(user2.getEmail(), user2);
+		map.put(user3.getEmail(), user3);
 		//map=cargaHashUsuarios();
 		//lista=cargaListaTransferencias();
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
