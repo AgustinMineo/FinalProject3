@@ -1,9 +1,9 @@
 package Coins;
 
+import java.io.Serializable;
 
-public abstract class Coin {
+public abstract class Coin implements Serializable{
     protected String nameCoin; /// Nombre de la moneda
-
     protected double amountCoin; /// El valor en utnCoins de la moneda.
 
     public Coin(String nameCoin, double amountCoin) {
@@ -18,4 +18,5 @@ public abstract class Coin {
     public double getAmountCoin() {return amountCoin;}
 
     public void setAmountCoin(double amountCoin) {this.amountCoin = amountCoin;}
+
 }

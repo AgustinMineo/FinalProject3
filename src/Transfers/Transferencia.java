@@ -1,16 +1,18 @@
 package Transfers;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import Enums.TransferCause;
 
-public abstract class Transferencia {
+public abstract class Transferencia implements Serializable{
 	protected Enum <TransferCause> sendCause;
     protected LocalDateTime fechaDeInicio;
     protected UUID codeIDTransfer;
     protected Nodo nodo;
     
+
     public Transferencia() {}
 
     public Transferencia(LocalDateTime fechaDeInicio, Nodo nodo, Enum<TransferCause> sendCause) {

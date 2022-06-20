@@ -19,12 +19,12 @@ public class Main{
 
 	public static void main(String[] args) {
 
-
 		
 		map=cargaHashUsuarios();
 		
 		lista=cargaListaTransferencias();
 		
+		//Muestro usuarios precargados
 		for (Map.Entry<String, Usuario> set :map.entrySet()) {
 			System.out.println(set.getKey() + " = " + set.getValue());
 		}

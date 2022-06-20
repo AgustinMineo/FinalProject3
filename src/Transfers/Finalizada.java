@@ -1,10 +1,11 @@
 package Transfers;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import Enums.TransferCause;
 
-public final class Finalizada extends Transferencia{
+public final class Finalizada extends Transferencia implements Serializable{
     private LocalDateTime finishDate;
 
     public Finalizada(LocalDateTime finishDate,LocalDateTime fechaDeInicio, Nodo nodo, Enum<TransferCause>sendCause) {

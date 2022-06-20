@@ -311,7 +311,9 @@ public class MenuUI implements TransferValidations,GuardaArchivoTransferencias,G
 	         fileOut.close();
 	      } catch (IOException i) {
 	         i.printStackTrace();
-	      }
+	      } catch (JsonIOException e){
+              e.printStackTrace();
+          }
 	}
 
 	@Override
