@@ -19,32 +19,22 @@ public class Main{
 
 	public static void main(String[] args) {
 
-
-		try {
-			map=cargaHashUsuarios();
-			//Muestro usuarios precargados
-			if(cargaHashUsuarios()!=null)
-			for (Map.Entry<String, Usuario> set :map.entrySet()) {
-				System.out.println(set.getKey() + " = " + set.getValue());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		map=cargaHashUsuarios();
+		
+		lista=cargaListaTransferencias();
+		
+		//Muestro usuarios precargados
+		for (Map.Entry<String, Usuario> set :map.entrySet()) {
+			System.out.println(set.getKey() + " = " + set.getValue());
 		}
-
-		try {
-			lista=cargaListaTransferencias();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
 		BienvenidaUI nuevaInterfaz=new BienvenidaUI(map,lista);
 		nuevaInterfaz.setVisible(true);
 	}
-	public static HashMap<String,Usuario> cargaHashUsuarios() throws IOException{
+	public static HashMap<String,Usuario> cargaHashUsuarios(){
 		try {
-			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"));
-			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
+			//JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\Agustin\\Desktop\\Cambios\\TP FINAL\\listaUsuarios.json"));
+			JsonElement fileElement = JsonParser.parseReader(new FileReader("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaUsuarios.json"));
             Gson gson = new Gson();
             Type empMapType = new TypeToken< HashMap <String, Usuario>>() {}.getType();
             HashMap<String,Usuario> map= gson.fromJson(fileElement,empMapType);
@@ -57,10 +47,10 @@ public class Main{
 			return null;
 	      }
 	}
-	public static List<Transferencia> cargaListaTransferencias() throws IOException{
+	public static List<Transferencia> cargaListaTransferencias(){
 		try {
-	         FileInputStream fileIn = new FileInputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaTransferencias.ser");
-			 //FileInputStream fileIn = new FileInputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
+	         //FileInputStream fileIn = new FileInputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
+			 FileInputStream fileIn = new FileInputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
 	         lista = (List<Transferencia>) in.readObject();
 	         in.close();
