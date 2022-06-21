@@ -355,7 +355,7 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 						System.out.println("Error, usuario ya valido la transferencia");
 					}else{
 
-						if(((Pending) listaTransferencias.get(pos)).getFechaDeInicio().isAfter(LocalDateTime.now().minusMinutes(5))){
+						if(((Pending) listaTransferencias.get(pos)).getFechaDeInicio().isAfter(LocalDateTime.now().minusMinutes(10))){
 	    			((Pending) listaTransferencias.get(pos)).addValidations(user.getEmail());
 	    			guardaArchivoTransferencias(listaTransferencias);
 	    			frame.dispose();
