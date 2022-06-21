@@ -420,8 +420,8 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	@Override
 	public void guardaArchivoTransferencias(List<Transferencia> listaTransferencias) {
 		try {
-	         //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Desktop\\TP FINAL LAST\\TP FINAL\\listaTransferencias.ser");
-			 FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
+	         FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaTransferencias.ser");
+			 //FileOutputStream fileOut=  new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\FinalProject3\\listaTransferencias.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(listaTransferencias);
 	         out.close();
@@ -435,8 +435,8 @@ public class HistorialTransferenciasUI implements GuardaArchivoTransferencias,Gu
 	@Override
     public void guardaArchivoUsuarios(HashMap<String,Usuario>map) {
              try {
-            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\\\FinalProject3\\listaUsuarios.json"),"UTF-8");                 
-            	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
+            	 //Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\lcoluccio\\Desktop\\GIT\\\\FinalProject3\\listaUsuarios.json"),"UTF-8");
+            	 Writer fileOut=  new OutputStreamWriter(new FileOutputStream("C:\\Users\\Agustin\\Documents\\GitHub\\FinalProject3\\listaUsuarios.json"),"UTF-8");
 				 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				 String gsonString = gson.toJson(map);
 				 fileOut.write(gsonString);
